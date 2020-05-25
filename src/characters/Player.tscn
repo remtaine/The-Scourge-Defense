@@ -1,0 +1,188 @@
+[gd_scene load_steps=50 format=2]
+
+[ext_resource path="res://images/characters/player/idle/adventurer-idle-02.png" type="Texture" id=1]
+[ext_resource path="res://images/characters/player/idle/adventurer-idle-00.png" type="Texture" id=2]
+[ext_resource path="res://images/characters/player/idle/adventurer-idle-01.png" type="Texture" id=3]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-05.png" type="Texture" id=4]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-03.png" type="Texture" id=5]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-04.png" type="Texture" id=6]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-06.png" type="Texture" id=7]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-09.png" type="Texture" id=8]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-11.png" type="Texture" id=9]
+[ext_resource path="res://images/characters/player/roll/adventurer-smrslt-00.png" type="Texture" id=10]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-10.png" type="Texture" id=11]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-07.png" type="Texture" id=12]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-08.png" type="Texture" id=13]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-02.png" type="Texture" id=14]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-00.png" type="Texture" id=15]
+[ext_resource path="res://images/characters/player/attack punch/adventurer-punch-01.png" type="Texture" id=16]
+[ext_resource path="res://scripts/characters/Player.gd" type="Script" id=17]
+[ext_resource path="res://images/characters/player/run/adventurer-run-02.png" type="Texture" id=18]
+[ext_resource path="res://images/characters/player/run/adventurer-run-04.png" type="Texture" id=19]
+[ext_resource path="res://images/characters/player/run/adventurer-run-00.png" type="Texture" id=20]
+[ext_resource path="res://images/characters/player/run/adventurer-run-01.png" type="Texture" id=21]
+[ext_resource path="res://images/characters/player/run/adventurer-run-03.png" type="Texture" id=22]
+[ext_resource path="res://images/characters/player/run/adventurer-run-05.png" type="Texture" id=23]
+[ext_resource path="res://images/placeholders/circle of light.png" type="Texture" id=24]
+[ext_resource path="res://images/characters/player/roll/adventurer-smrslt-01.png" type="Texture" id=25]
+[ext_resource path="res://images/characters/player/roll/adventurer-smrslt-03.png" type="Texture" id=26]
+[ext_resource path="res://images/characters/player/roll/adventurer-smrslt-02.png" type="Texture" id=27]
+[ext_resource path="res://images/characters/player/jump/adventurer-jump-00.png" type="Texture" id=28]
+[ext_resource path="res://src/helpers/StateLabel.tscn" type="PackedScene" id=29]
+[ext_resource path="res://images/characters/player/jump/adventurer-jump-02.png" type="Texture" id=30]
+[ext_resource path="res://images/characters/player/attack air kick/adventurer-drop-kick-01.png" type="Texture" id=31]
+[ext_resource path="res://images/characters/player/jump/adventurer-jump-03.png" type="Texture" id=32]
+[ext_resource path="res://images/characters/player/fall/adventurer-fall-00.png" type="Texture" id=33]
+[ext_resource path="res://images/characters/player/fall/adventurer-fall-01.png" type="Texture" id=34]
+[ext_resource path="res://images/characters/player/attack air kick/adventurer-drop-kick-02.png" type="Texture" id=35]
+[ext_resource path="res://images/characters/player/attack air kick/adventurer-drop-kick-00.png" type="Texture" id=36]
+[ext_resource path="res://images/characters/player/attack air kick/adventurer-drop-kick-03.png" type="Texture" id=37]
+[ext_resource path="res://src/calculators/Hurtbox.tscn" type="PackedScene" id=38]
+[ext_resource path="res://src/calculators/Hitbox.tscn" type="PackedScene" id=39]
+[ext_resource path="res://src/calculators/SpellHitbox.tscn" type="PackedScene" id=40]
+[ext_resource path="res://images/characters/player/cast spell/adventurer-cast-loop-02.png" type="Texture" id=41]
+[ext_resource path="res://images/characters/player/cast spell/adventurer-cast-loop-03.png" type="Texture" id=42]
+[ext_resource path="res://images/characters/player/cast spell/adventurer-cast-loop-00.png" type="Texture" id=43]
+[ext_resource path="res://images/characters/player/cast spell/adventurer-cast-loop-01.png" type="Texture" id=44]
+[ext_resource path="res://src/animations/HurtAnimationPlayer.tscn" type="PackedScene" id=45]
+[ext_resource path="res://src/helpers/ScreenShakeGenerator.tscn" type="PackedScene" id=46]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 20 ), ExtResource( 21 ), ExtResource( 18 ), ExtResource( 22 ), ExtResource( 19 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "run",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 15 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 7 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 8 ), ExtResource( 11 ), ExtResource( 9 ), ExtResource( 6 ), ExtResource( 15 ) ],
+"loop": false,
+"name": "attack_punch",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 10 ), ExtResource( 25 ), ExtResource( 27 ), ExtResource( 26 ) ],
+"loop": false,
+"name": "roll",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 36 ), ExtResource( 31 ), ExtResource( 35 ), ExtResource( 37 ) ],
+"loop": false,
+"name": "attack_air_kick",
+"speed": 12.0
+}, {
+"frames": [ ExtResource( 33 ), ExtResource( 34 ) ],
+"loop": false,
+"name": "fall",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 30 ), ExtResource( 32 ) ],
+"loop": false,
+"name": "jump",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 43 ), ExtResource( 44 ), ExtResource( 41 ), ExtResource( 42 ) ],
+"loop": false,
+"name": "cast_turning_spell",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 9.73019, 11.2556 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "cast_turning_spell"
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "cast_turning_spell" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frames")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
+}
+
+[node name="Player" type="KinematicBody2D" groups=[
+"allies",
+]]
+collision_layer = 2
+script = ExtResource( 17 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 2.5, 2.5 )
+frames = SubResource( 1 )
+animation = "idle"
+
+[node name="Hitboxes" type="Position2D" parent="AnimatedSprite"]
+
+[node name="PunchHitbox" parent="AnimatedSprite/Hitboxes" instance=ExtResource( 39 )]
+position = Vector2( 9.56697, 3.16891 )
+scale = Vector2( 1.096, 1 )
+
+[node name="SpellHitbox" parent="AnimatedSprite/Hitboxes" instance=ExtResource( 40 )]
+position = Vector2( 0, 16.4269 )
+scale = Vector2( 4.856, 4.856 )
+
+[node name="Hurtboxes" type="Position2D" parent="AnimatedSprite"]
+
+[node name="Hurtbox" parent="AnimatedSprite/Hurtboxes" instance=ExtResource( 38 )]
+position = Vector2( 0, 3.52101 )
+scale = Vector2( 0.472, 1.416 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.427189, 42.1152 )
+scale = Vector2( 1.50668, 0.320001 )
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/cast_turning_spell = SubResource( 3 )
+
+[node name="HurtAnimationPlayer" parent="AnimationPlayer" instance=ExtResource( 45 )]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.95, 0.95 )
+limit_left = 0
+limit_top = 0
+limit_bottom = 540
+
+[node name="ScreenShakeGenerator" parent="Camera2D" instance=ExtResource( 46 )]
+
+[node name="StateLabel" parent="." instance=ExtResource( 29 )]
+
+[node name="Shadow" type="Sprite" parent="."]
+modulate = Color( 0, 0, 0, 0.301961 )
+show_behind_parent = true
+position = Vector2( 0, 45.7878 )
+scale = Vector2( 0.2, 0.025 )
+texture = ExtResource( 24 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="FrozenTimer" type="Timer" parent="Timers"]
+
+[node name="HurtTimer" type="Timer" parent="Timers"]
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="frame_changed" from="AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
+[connection signal="animation_finished" from="AnimationPlayer/HurtAnimationPlayer" to="." method="_on_animation_done"]
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
