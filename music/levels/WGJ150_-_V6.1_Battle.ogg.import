@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/WGJ150_-_V6.1_Battle.ogg-5ad1c73f7ed18dfb66defb88a9da90b8.oggstr"
+
+[deps]
+
+source_file="res://music/levels/WGJ150_-_V6.1_Battle.ogg"
+dest_files=[ "res://.import/WGJ150_-_V6.1_Battle.ogg-5ad1c73f7ed18dfb66defb88a9da90b8.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

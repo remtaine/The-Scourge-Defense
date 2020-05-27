@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ENEMY CAPTURE 2.wav-2dc30bd910e8c2ae47398c550f229083.sample"
+
+[deps]
+
+source_file="res://sfx/characters/enemies/captured/ENEMY CAPTURE 2.wav"
+dest_files=[ "res://.import/ENEMY CAPTURE 2.wav-2dc30bd910e8c2ae47398c550f229083.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

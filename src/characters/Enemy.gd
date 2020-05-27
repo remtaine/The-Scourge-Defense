@@ -12,7 +12,7 @@ const MAX_JUMP_HEIGHT = -100
 const MAX_KNOCKBACK_HEIGHT = -10
 
 const ATTACK_DIST = 30
-const CHASE_DIST = 200
+const CHASE_DIST = 300
 var prev_jump_height = 100
 var jump_vel = 0
 var jump_pos = 0
@@ -25,7 +25,7 @@ onready var tween = $Tween
 onready var zombie_resource = preload("res://src/characters/Zombie.tscn")
 
 func _init():
-	max_hp = 5
+	max_hp = 3
 	SPEED = {
 		STATES.IDLE: Vector3(0, 0, 0),
 		STATES.RUN: Vector3(60, 30, 100),
@@ -77,7 +77,8 @@ func _init():
 	instance_name = "enemy"	
 
 func _ready():
-	current_target = Util.current_player
+	current_target = search_nearest_target()
+	
 	_state = STATES.IDLE
 	_speed = SPEED[_state]
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")
@@ -87,8 +88,14 @@ func _physics_process(delta):
 #	_collision_normal = get_slide_collision(slide_count - 1).normal if slide_count > 0 else _collision_normal
 	
 	if frozen_duration > 0.0:
+#		match _state: # before being frozen
+#			STATES.HURT:
+#				sprite.play("hurt")
+#				sprite.set_frame(0)
+		
 		sprite._set_playing(false)
-		yield(get_tree().create_timer(frozen_duration), "timeout")
+		if _state != STATES.ATTACK:
+			yield(get_tree().create_timer(frozen_duration), "timeout")
 		sprite._set_playing(true)
 		frozen_duration = 0.0
 
@@ -99,13 +106,16 @@ func _physics_process(delta):
 					$Sounds/DeathSound.play()
 				else:
 					sprite.play("hurt")
-				hurt_anim_player.play("hurt")
+				$HurtAnimationPlayer.play("hurt")
 				if last_damaged_by.instance_name == "player":
 					if not last_damaged_by.is_flipped:#ie player is at left
 						_velocity.x = KNOCKBACK_LENGTH
 					else:
 						_velocity.x = -KNOCKBACK_LENGTH
 					last_damaged_by.camera_shake.start()
+			STATES.ATTACK:
+				print("ENEMY ATTACKED!")
+				$Sounds/AttackSound.play()
 				
 	var input = get_raw_input(_state)
 	var event = decode_raw_input(input)
@@ -179,16 +189,16 @@ func enter_state():
 		STATES.RUN:
 			sprite.play("run")
 		STATES.ATTACK:
-			print("before ", sprite.animation)			
+			$Sounds/AttackSound.play()
 			sprite.play("attack")
-			print("after ", sprite.animation)						
 		STATES.JUMP:
 			sprite.play("jump")
 			tween.interpolate_method(self, "animate_jump", 0, 1, JUMP_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN)
 			tween.start()
 		STATES.HURT:
 			if frozen_duration == 0.0:
-				frozen_duration = BASE_FREEZE_DURATION
+				frozen_duration = BASE_FREEZE_DURATION			
+	
 #			var temp = -40
 #			#TODO make better knockback
 #			_velocity.x *= temp
@@ -271,6 +281,9 @@ func _on_Tween_tween_completed(object, key):
 #			print("KNOCKBACK BRO")
 #			change_state(EVENTS.HURT_END)
 
+func search_nearest_target():
+	pass
+
 func _on_has_turned():
 	var zombie = zombie_resource.instance()
 	zombie.setup(global_position)
@@ -279,7 +292,9 @@ func _on_has_turned():
 	print("ENEMY HAS BEEEN TURNED")
 
 func _on_HurtAnimationPlayer_animation_finished(anim_name):
-	change_state(EVENTS.HURT_END)
+	if anim_name == "hurt":
+		print("HUR DONE")
+		change_state(EVENTS.HURT_END)
 	
 func _on_AnimatedSprite_frame_changed():
 	match sprite.animation:

@@ -37,12 +37,12 @@ onready var airkickbox = $Body/AnimatedSprite/Hitboxes/AirKickHitbox
 
 onready var spellbox = hitboxes.get_node("SpellHitbox")
 func _init():
-	
+	max_hp = 10000000
 	SPEED = {
 		STATES.IDLE: Vector3(0, 0, 0),
 		STATES.RUN: Vector3(300, 150, 100),
 		STATES.JUMP: Vector3(200, 100, 100),
-		STATES.ROLL: Vector3(400, 200, 100),
+		STATES.ROLL: Vector3(300, 150, 100),
 	}
 
 	MAX_SPEED = {
@@ -100,9 +100,11 @@ func _physics_process(delta):
 
 	if frozen_duration > 0.0:
 		sprite._set_playing(false)
-		yield(get_tree().create_timer(frozen_duration), "timeout")
+		if _state != STATES.HURT:
+			yield(get_tree().create_timer(frozen_duration), "timeout")
 		sprite._set_playing(true)
 		frozen_duration = 0.0
+		print("STATE AFTER BEING FROZEN IS ", _state)
 
 		match _state: # after being frozen
 			STATES.HURT:
@@ -111,7 +113,7 @@ func _physics_process(delta):
 					$Sounds/DeathSound.play()
 				else:
 					sprite.play("hurt")
-				hurt_anim_player.play("hurt")
+				$AnimationPlayer/HurtAnimationPlayer.play("hurt")
 				if last_damaged_by.instance_name == "enemy":
 #					print("hit by enemy!")
 					#TODO change to is_facing
@@ -123,7 +125,7 @@ func _physics_process(delta):
 #				if not tween.is_active():
 #					tween.interpolate_method(self, "animate_knockback", 0, 1, hurt_anim_player.current_animation_length, Tween.TRANS_LINEAR, Tween.EASE_IN)
 #					tween.start()
-			STATES.ATTACK, STATES.ATTACK_PUNCH, STATES.ATTACK_AIR_KICK:
+			STATES.ATTACK_PUNCH, STATES.ATTACK_AIR_KICK:
 				pass
 #				$Sounds/AttackSound.stop()
 #				match continue_combo:
@@ -195,8 +197,12 @@ func _set_speed(value):
 func enter_state():
 	$StateLabel.text = _state
 	
-	if prev_state == STATES.CASTING_TURNING_SPELL:
-		spellbox.hide_sprite()
+	match prev_state:
+		STATES.CASTING_TURNING_SPELL:
+			$Sounds/SpellSound.stop()
+			spellbox.hide_sprite()
+		STATES.ATTACK_AIR_KICK:
+			airkickbox.disable()
 	match _state:
 		STATES.IDLE:
 			sprite.play("idle")
@@ -217,6 +223,7 @@ func enter_state():
 			sprite.play("attack_punch")
 		STATES.ATTACK_AIR_KICK:
 			sprite.play("attack_air_kick")
+#			_speed *= 1.5
 		STATES.JUMP:
 			play_sound(jump_sound)
 			sprite.play("jump")
@@ -225,10 +232,12 @@ func enter_state():
 #			jump_vel = _speed[_state].z
 		STATES.CASTING_TURNING_SPELL:
 			spellbox.show_sprite()
+			$Sounds/SpellSound.play()
 			sprite.play("cast_turning_spell")
 #			print("CASTING TURNING SPELL")
 		STATES.HURT:
-			hurt_anim_player.play("hurt")
+			if frozen_duration == 0.0:
+				frozen_duration = BASE_FREEZE_DURATION
 
 func animate_jump(progress):
 	pass
@@ -300,8 +309,6 @@ func _on_AnimatedSprite_animation_finished():
 
 func _on_Tween_tween_completed(object, key):
 	if key == ":animate_jump":
-		if sprite.animation == "attack_air_kick":
-			airkickbox.disable()
 		play_sound(land_sound)
 		prev_jump_height = 100
 		change_state(EVENTS.LAND)
@@ -348,10 +355,6 @@ func _on_AnimatedSprite_frame_changed():
 			match sprite.get_frame(): #TODO CREATE custom hitbox for kick
 				2:
 					airkickbox.enable()
-					
-func _on_hit_enemy(multiplier = 1):
-	frozen_duration = BASE_FREEZE_DURATION
-	emit_signal("combo_extended", 1)
 
 func play_sound(sound):
 	match sound:

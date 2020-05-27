@@ -73,7 +73,7 @@ var current_shadow_scale
 
 var _transitions = {}
 var hp = 3
-var max_hp = 10000
+var max_hp = 3
 var current_scale
 
 var prev_state = "IDLE"
@@ -83,7 +83,7 @@ onready var body = $Body
 onready var sprite = $Body/AnimatedSprite
 onready var hitboxes = $Body/AnimatedSprite/Hitboxes
 onready var hurtboxes = $Body/AnimatedSprite/Hurtboxes
-onready var hurt_anim_player = $AnimationPlayer/HurtAnimationPlayer
+#onready var hurt_anim_player = $AnimationPlayer/HurtAnimationPlayer
 onready var shadow_sprite = $ShadowSprite
 
 func _ready():
@@ -120,10 +120,14 @@ func change_state(event):
 	emit_signal("state_changed", _state)
 
 func _on_hit_enemy(multiplier = 1):
+	print(instance_name, " HAS HIT ENEMY")
+	if is_in_group("player"):
+		emit_signal("combo_extended", 1)
 	if frozen_duration == 0.0:
 		frozen_duration = BASE_FREEZE_DURATION
 
 func _on_take_damage(damager, dmg = base_damage):
+	print("TOOK DAMAGE")
 	last_damaged_by = damager
 	if not has_been_attacked:
 		has_been_attacked = true

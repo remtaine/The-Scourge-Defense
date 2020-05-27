@@ -76,7 +76,7 @@ func _physics_process(delta):
 		match _state:
 			STATES.HURT:
 				sprite.play("hurt")
-				hurt_anim_player.play("hurt")
+#				$Anim.play("hurt")
 			STATES.ATTACK, STATES.ATTACK_PUNCH, STATES.ATTACK_AIR_KICK:
 				pass
 
@@ -136,7 +136,8 @@ func enter_state():
 			tween.interpolate_method(self, "animate_jump", 0, 1, JUMP_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN)
 			tween.start()
 		STATES.HURT:
-			hurt_anim_player.play("hurt")
+			pass
+#			hurt_anim_player.play("hurt")
 
 func animate_jump(progress):
 	var jump_height = MAX_JUMP_HEIGHT * pow(sin(progress * PI), 0.7)

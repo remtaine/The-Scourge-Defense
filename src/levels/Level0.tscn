@@ -13,7 +13,7 @@
 [ext_resource path="res://src/characters/Enemy.tscn" type="PackedScene" id=11]
 [ext_resource path="res://images/placeholders/white square.png" type="Texture" id=12]
 [ext_resource path="res://src/ui/ComboText.tscn" type="PackedScene" id=13]
-[ext_resource path="res://music/levels/WGJ150_-_V4.2_Standard_Level1.ogg" type="AudioStream" id=14]
+[ext_resource path="res://music/levels/WGJ150_-_V6.1_Battle.ogg" type="AudioStream" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 20.0899, 19.1951 )
@@ -109,13 +109,37 @@ centered = false
 position = Vector2( 431.342, 366.303 )
 
 [node name="Enemy" parent="Characters" instance=ExtResource( 11 )]
-position = Vector2( 669.541, 348.976 )
+position = Vector2( 1469.94, 350.483 )
 
 [node name="Enemy2" parent="Characters" instance=ExtResource( 11 )]
-position = Vector2( 365.057, 446.953 )
+position = Vector2( 1165.46, 448.46 )
 
 [node name="Enemy3" parent="Characters" instance=ExtResource( 11 )]
-position = Vector2( 111.823, 306.77 )
+position = Vector2( 912.223, 308.277 )
+
+[node name="Enemy4" parent="Characters" instance=ExtResource( 11 )]
+position = Vector2( 1153.4, 308.277 )
+
+[node name="Enemy5" parent="Characters" instance=ExtResource( 11 )]
+position = Vector2( 1076.52, 376.108 )
+
+[node name="Enemy6" parent="Characters" instance=ExtResource( 11 )]
+position = Vector2( 1347.85, 489.159 )
+
+[node name="Enemy7" parent="Characters" instance=ExtResource( 11 )]
+position = Vector2( 1272.48, 377.615 )
+
+[node name="Enemy8" parent="Characters" instance=ExtResource( 11 )]
+position = Vector2( 1402.11, 272.101 )
+
+[node name="Enemy9" parent="Characters" instance=ExtResource( 11 )]
+position = Vector2( 1521.19, 484.637 )
+
+[node name="Enemy10" parent="Characters" instance=ExtResource( 11 )]
+position = Vector2( 1607.11, 345.961 )
+
+[node name="Enemy11" parent="Characters" instance=ExtResource( 11 )]
+position = Vector2( 1733.73, 440.924 )
 
 [node name="ParallaxForeground" type="ParallaxBackground" parent="."]
 layer = 0
@@ -200,5 +224,5 @@ position = Vector2( 493.259, 40.0954 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 14 )
-volume_db = -10.0
+volume_db = -8.0
 autoplay = true
