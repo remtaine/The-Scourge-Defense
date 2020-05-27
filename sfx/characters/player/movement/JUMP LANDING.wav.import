@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/JUMP LANDING.wav-4dd3995929deeff770c321578e234abb.sample"
+
+[deps]
+
+source_file="res://sfx/characters/player/movement/JUMP LANDING.wav"
+dest_files=[ "res://.import/JUMP LANDING.wav-4dd3995929deeff770c321578e234abb.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -9,23 +9,11 @@ var MAX_SPEED
 
 const JUMP_DURATION = 1.0
 const MAX_JUMP_HEIGHT = -100
-var is_flipped = false
 
 var prev_jump_height = 100
 var jump_vel = 0
 var jump_pos = 0
 
-var current_sprite_scale
-var current_shadow_scale
-var _speed = 0 setget _set_speed
-var _max_speed = 0
-var _dir = Vector2(1,0)
-var _velocity = Vector2.ZERO
-#var _collision_normal = Vector2()
-#var _last_input_direction = Vector2()
-
-onready var sprite = $AnimatedSprite
-onready var shadow_sprite = $Shadow
 onready var anim_player = $AnimationPlayer
 onready var tween = $Tween
 
@@ -68,9 +56,7 @@ func _init():
 	_speed = SPEED[_state]
 
 func _ready():
-	current_scale = scale
-	current_sprite_scale = sprite.scale
-	current_shadow_scale = shadow_sprite.scale
+	pass
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")
 
 func setup(g_pos):
@@ -107,25 +93,16 @@ func _physics_process(delta):
 			continue
 		STATES.JUMP:
 			pass
-			#TODO insert animate_jump code
-			
-			
 	
-#	match _state: #match for clamping speed
-#		STATES.RUN, STATES.ROLL, STATES.JUMP:
-#			_velocity.x = clamp(_velocity.x, -MAX_SPEED[_state].x, MAX_SPEED[_state].x)
-#			_velocity.y = clamp(_velocity.y, -MAX_SPEED[_state].y, MAX_SPEED[_state].y)
-			
 	match _state: #match for flipping
 		STATES.ATTACK_PUNCH, STATES.IDLE:
-			return
+			pass
+		STATES.HURT, STATES.DIE:
+			flip(_velocity.x > 0)
 		_:
-			if _velocity.x < 0:
-				sprite.flip_h = true
-			elif _velocity.x > 0:
-				sprite.flip_h = false
+			flip(_velocity.x < 0)
 
-			move_and_slide(_velocity)
+	move_and_slide(_velocity)
 
 
 
@@ -185,7 +162,7 @@ static func get_input_direction(event = Input):
 			float(event.is_action_pressed("move_down")) - float(event.is_action_pressed("move_up")))
 
 
-static func decode_raw_input(input):
+func decode_raw_input(input):
 	"""
 	Converts the player's input to events. The state machine
 	uses these events to trigger transitions from one state to another.

@@ -26,4 +26,4 @@ func setup(current_owner):
 	connect("took_damage", host, "_on_take_damage")
 	connect("has_turned", host, "_on_has_turned")
 	connect("turned_enemy", host, "_on_turn_enemy")
-	print("setup for ", box_type, " done, owned by ", host.instance_name)
+#	print("setup for ", box_type, " done, owned by ", host.instance_name)

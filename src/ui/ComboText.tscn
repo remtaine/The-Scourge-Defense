@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/ui/ComboLabel.gd" type="Script" id=1]
+[ext_resource path="res://fonts/KaushanScript-Regular.otf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "emphasize"
+length = 0.3
+step = 0.15
+tracks/0/type = "value"
+tracks/0/path = NodePath("..:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
+}
+
+[node name="ComboText" type="Position2D"]
+
+[node name="ComboLabel" type="Label" parent="."]
+margin_left = -102.634
+margin_top = -38.1274
+margin_right = 90.3664
+margin_bottom = 32.8726
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 1 )
+text = "Combo x0"
+align = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ComboTimer" type="Timer" parent="ComboLabel"]
+wait_time = 2.0
+one_shot = true
+
+[node name="Tween" type="Tween" parent="ComboLabel"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ComboLabel"]
+anims/emphasize = SubResource( 2 )
+[connection signal="timeout" from="ComboLabel/ComboTimer" to="ComboLabel" method="_on_ComboTimer_timeout"]
+[connection signal="tween_completed" from="ComboLabel/Tween" to="ComboLabel" method="_on_Tween_tween_completed"]

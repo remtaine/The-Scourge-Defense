@@ -44,6 +44,6 @@ func _on_FrequencyTimer_timeout():
 	frequency.start()
 
 func _on_DurationTimer_timeout():
-	print("DURATION DONE!")
+#	print("DURATION DONE!")
 	reset()
 	frequency.stop()

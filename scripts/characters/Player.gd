@@ -8,35 +8,39 @@ signal combo_extended
 var SPEED 
 var MAX_SPEED
 
-const JUMP_DURATION = 1.0
+const JUMP_DURATION = 0.7
 const MAX_JUMP_HEIGHT = -100
-var is_flipped = false
+const JUMP_FALL_DISCREPANCY = 0.05
 
 var prev_jump_height = 100
 var jump_vel = 0
 var jump_pos = 0
 
-var continue_combo = false
-var current_sprite_scale
-var current_shadow_scale
-var _speed = 0 setget _set_speed
-var _max_speed = 0
-var _dir = Vector2(1,0)
-var _velocity = Vector2.ZERO
-#var _collision_normal = Vector2()
-#var _last_input_direction = Vector2()
+var continue_combo = 0
+var is_falling = false
 
-onready var sprite = $AnimatedSprite
-onready var shadow_sprite = $Shadow
 onready var anim_player = $AnimationPlayer
 onready var tween = $Tween
 onready var camera_shake = $Camera2D/ScreenShakeGenerator
 
+onready var fist_sound1 = preload("res://sfx/characters/player/FIST 1.wav")
+onready var fist_sound2 = preload("res://sfx/characters/player/FIST 2.wav")
+onready var fist_sound3 = preload("res://sfx/characters/player/FIST 3.wav")
+onready var fist_sound_combo = preload("res://sfx/characters/player/FIST COMBO FINISHER.wav")
+
+onready var roll_sound = preload("res://sfx/characters/player/movement/ROLL.wav")
+onready var jump_sound = preload("res://sfx/characters/player/movement/JUMP 1 (for SMALL SIZE or PLAYER).wav")
+onready var land_sound = preload("res://sfx/characters/player/movement/JUMP LANDING.wav")
+
+onready var punchbox = $AnimatedSprite/Hitboxes/PunchHitbox
+onready var airkickbox = $AnimatedSprite/Hitboxes/AirKickHitbox
+
+onready var spellbox = hitboxes.get_node("SpellHitbox")
 func _init():
 	
 	SPEED = {
 		STATES.IDLE: Vector3(0, 0, 0),
-		STATES.RUN: Vector3(200, 100, 100),
+		STATES.RUN: Vector3(300, 150, 100),
 		STATES.JUMP: Vector3(200, 100, 100),
 		STATES.ROLL: Vector3(500, 250, 100),
 	}
@@ -80,13 +84,11 @@ func _init():
 			
 #		[STATES.FALL, EVENTS.LAND]: STATES.IDLE,			
 	}
-
+	base_damage = 1
 	instance_name = "player"
-	
+	Util.current_player = self
+
 func _ready():
-	current_scale = Vector2(scale.x, 0)
-	current_sprite_scale = sprite.scale
-	current_shadow_scale = shadow_sprite.scale
 	_state = STATES.IDLE
 	_speed = SPEED[_state]
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")
@@ -102,12 +104,35 @@ func _physics_process(delta):
 		sprite._set_playing(true)
 		frozen_duration = 0.0
 
-		match _state:
+		match _state: # after being frozen
 			STATES.HURT:
-				sprite.play("hurt")
+				if _state == STATES.DIE:
+					sprite.play("die")
+					$Sounds/DeathSound.play()
+				else:
+					sprite.play("hurt")
 				hurt_anim_player.play("hurt")
+				if last_damaged_by.instance_name == "enemy":
+#					print("hit by enemy!")
+					#TODO change to is_facing
+					if not last_damaged_by.is_flipped:#ie player is at left
+						_velocity.x = KNOCKBACK_LENGTH
+					else:
+						_velocity.x = -KNOCKBACK_LENGTH
+					camera_shake.start()
+#				if not tween.is_active():
+#					tween.interpolate_method(self, "animate_knockback", 0, 1, hurt_anim_player.current_animation_length, Tween.TRANS_LINEAR, Tween.EASE_IN)
+#					tween.start()
 			STATES.ATTACK, STATES.ATTACK_PUNCH, STATES.ATTACK_AIR_KICK:
 				pass
+#				$Sounds/AttackSound.stop()
+#				match continue_combo:
+#					1:
+#						play_sound(fist_sound1)
+#					2:
+#						play_sound(fist_sound3)
+#					3:
+#						play_sound(fist_sound_combo)
 
 	var input = get_raw_input(_state)
 	var event = decode_raw_input(input)
@@ -125,8 +150,10 @@ func _physics_process(delta):
 			_velocity = Vector2(0, 0)
 			if Input.is_action_just_pressed("attack"):
 				match (sprite.get_frame()):
-					2,3,4,6,7,8:
-						continue_combo = true
+					2,3,4:
+						continue_combo = 2
+					6,7,8:
+						continue_combo = 3
 		STATES.JUMP:
 			pass
 			#TODO insert animate_jump code
@@ -138,27 +165,19 @@ func _physics_process(delta):
 #			_velocity.x = clamp(_velocity.x, -MAX_SPEED[_state].x, MAX_SPEED[_state].x)
 #			_velocity.y = clamp(_velocity.y, -MAX_SPEED[_state].y, MAX_SPEED[_state].y)
 			
-	flip()
+	match _state: #match for flipping
+		STATES.ATTACK_PUNCH, STATES.IDLE, STATES.HURT, STATES.DIE:
+			pass
+#		STATES.HURT, STATES.DIE:
+#			flip(_velocity.x > 0)
+		_:
+			flip(_velocity.x < 0)
 
 	move_and_slide(_velocity)
-
-func flip():
-	match _state: #match for flipping
-		STATES.ATTACK_PUNCH, STATES.IDLE:
-			return
-		_:
-			if _velocity.x < 0:
-#				if scale.x != -current_scale.x:
-#					scale.x = -current_scale.x
-#					print("current scale is ", current_scale.x)
-#					print("flipped scale is ", scale.x)
-				is_flipped = true
-				sprite.scale.x = -current_sprite_scale.x
-			elif _velocity.x > 0:
-#				scale.x = current_scale.x
-				is_flipped = false
-				sprite.scale.x = current_sprite_scale.x
-#				sprite.flip_h = false
+#	body.move_and_slide(_velocity)
+	
+	_air_velocity.y += 10
+#	_air_velocity = air_move(delta, _air_velocity)
 
 func _set_speed(value):
 	if _speed == value:
@@ -169,6 +188,8 @@ func _set_speed(value):
 func enter_state():
 	$StateLabel.text = _state
 	
+	if prev_state == STATES.CASTING_TURNING_SPELL:
+		spellbox.hide_sprite()
 	match _state:
 		STATES.IDLE:
 			sprite.play("idle")
@@ -177,40 +198,54 @@ func enter_state():
 			_speed = SPEED[_state]
 			continue
 		STATES.ROLL:
+			play_sound(roll_sound)
 			sprite.play("roll")
+			$Timers/RollCDTimer.start()
 		STATES.RUN:
 			sprite.play("run")
-		STATES.ATTACK_PUNCH:
+		STATES.ATTACK_PUNCH, STATES.ATTACK_AIR_KICK:
+			continue_combo = 1
+			continue
+		STATES.ATTACK_PUNCH:	
 			sprite.play("attack_punch")
 		STATES.ATTACK_AIR_KICK:
 			sprite.play("attack_air_kick")
 		STATES.JUMP:
+			play_sound(jump_sound)
 			sprite.play("jump")
 			tween.interpolate_method(self, "animate_jump", 0, 1, JUMP_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN)
 			tween.start()
 #			jump_vel = _speed[_state].z
 		STATES.CASTING_TURNING_SPELL:
+			spellbox.show_sprite()
 			sprite.play("cast_turning_spell")
-			print("CASTING TURNING SPELL")
+#			print("CASTING TURNING SPELL")
 		STATES.HURT:
 			hurt_anim_player.play("hurt")
 
 func animate_jump(progress):
-	var jump_height = MAX_JUMP_HEIGHT * pow(sin(progress * PI), 0.7)
+	var jump_height
+	if is_falling:
+		var limit = clamp(progress + JUMP_FALL_DISCREPANCY, 0, 1)
+		jump_height = MAX_JUMP_HEIGHT * pow(sin((limit) * PI), 0.7)
+	else:	
+		jump_height = MAX_JUMP_HEIGHT * pow(sin(progress * PI), 0.7)
 	var shadow_scale = 1.0 - (jump_height/MAX_JUMP_HEIGHT * 0.5)
 	
 	sprite.position.y = jump_height
 	shadow_sprite.scale = Vector2(shadow_scale, shadow_scale) * current_shadow_scale
-	if prev_jump_height < jump_height and sprite.animation == "jump": #meaning he's already going dowwnnn
-		sprite.play("fall")
+	if prev_jump_height < jump_height: #meaning he's already going dowwnnn
+		if sprite.animation == "jump":
+			sprite.play("fall")
+		is_falling = true
 	prev_jump_height = jump_height
 		
 static func get_raw_input(state):
 	return {
 		direction = get_input_direction(),
-		is_attacking = Input.is_action_just_pressed("attack"),
-		is_rolling = Input.is_action_just_pressed("special"),
-		is_jumping = Input.is_action_just_pressed("jump"),
+		is_attacking = Input.is_action_pressed("attack"),
+		is_rolling = Input.is_action_pressed("special"),
+		is_jumping = Input.is_action_pressed("jump"),
 		is_casting_turn_spell = Input.is_action_just_pressed("cast_turning_spell"),
 	}
 
@@ -220,7 +255,7 @@ static func get_input_direction(event = Input):
 			float(event.is_action_pressed("move_down")) - float(event.is_action_pressed("move_up")))
 
 
-static func decode_raw_input(input):
+func decode_raw_input(input):
 	"""
 	Converts the player's input to events. The state machine
 	uses these events to trigger transitions from one state to another.
@@ -230,9 +265,9 @@ static func decode_raw_input(input):
 		event = EVENTS.CASTING_TURNING_SPELL
 	elif input.is_attacking:
 		event = EVENTS.ATTACK
-	elif input.is_rolling and input.direction != Vector2():# or _state == STATES.ROLL:
+	elif input.is_rolling and $Timers/RollCDTimer.is_stopped() and input.direction != Vector2():# or _state == STATES.ROLL:
 		event = EVENTS.ROLL
-	elif input.is_jumping:
+	elif input.is_jumping:# and input.direction != Vector2():
 		event = EVENTS.JUMP
 	elif input.direction == Vector2():
 		event = EVENTS.IDLE
@@ -249,7 +284,6 @@ func _on_AnimatedSprite_animation_finished():
 			sprite.position.y = 0		
 			change_state(EVENTS.ROLL_END)	
 		"cast_turning_spell":
-			var spellbox = hitboxes.get_node("SpellHitbox")
 			spellbox.enable()
 			tween.interpolate_callback(spellbox, 0.2, "disable")
 			tween.start()
@@ -258,38 +292,45 @@ func _on_AnimatedSprite_animation_finished():
 
 func _on_Tween_tween_completed(object, key):
 	if key == ":animate_jump":
+		if sprite.animation == "attack_air_kick":
+			airkickbox.disable()
+		play_sound(land_sound)
 		prev_jump_height = 100
 		change_state(EVENTS.LAND)
+		is_falling = false
 	
 	if key == ":disable":
 		change_state(EVENTS.CASTING_SPELL_END)
 		
 func _on_turn_enemy():
-	print("ENEMY TURNED")
+	pass
+#	print("ENEMY TURNED")
 
 func _on_AnimatedSprite_frame_changed():
 	match sprite.animation:
 		"attack_punch":
-			var punchbox = hitboxes.get_node("PunchHitbox")
 			match sprite.get_frame():
 				6:
-					if continue_combo:
+					if continue_combo == 2:
+						play_sound(fist_sound2)	
 						punchbox.enable()
-						continue_combo = false
 					else:
 						punchbox.disable()
 						change_state(EVENTS.ATTACK_END)
+						continue_combo = 0						
 					continue
 				10:
-					if continue_combo:
+					if continue_combo == 3:
+						play_sound(fist_sound3) #TODO change to combo once knocked down in effect
 						punchbox.enable()
-						continue_combo = false
 					else:
 						punchbox.disable()
 						change_state(EVENTS.ATTACK_END)
+						continue_combo = 0
 					continue
 					
 				2:
+					play_sound(fist_sound1)
 					punchbox.enable()
 					continue
 				3, 7, 11:
@@ -299,9 +340,27 @@ func _on_AnimatedSprite_frame_changed():
 			match sprite.get_frame():
 				1:
 					sprite.position.y = 17
-
+		"attack_air_kick":
+			match sprite.get_frame(): #TODO CREATE custom hitbox for kick
+				2:
+					airkickbox.enable()
+					
 func _on_hit_enemy(multiplier = 1):
+	frozen_duration = BASE_FREEZE_DURATION
 	emit_signal("combo_extended", 1)
 
+func play_sound(sound):
+	match sound:
+		jump_sound, roll_sound, land_sound:
+			$Sounds/MovementSound.stream = sound
+			$Sounds/MovementSound.play()
+		fist_sound1, fist_sound2, fist_sound3, fist_sound_combo:
+#			print(sound)
+			$Sounds/AttackSound.stream = sound
+			$Sounds/AttackSound.play()
+			
 func setup(s):
 	connect("combo_extended", s, "_on_combo_extended")
+
+func _on_HurtAnimationPlayer_animation_finished(anim_name):
+	change_state(EVENTS.HURT_END)

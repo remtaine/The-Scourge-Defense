@@ -1,3 +1,3 @@
+extends Node2D
 
-func debug_message(string):
-	pass
+var current_player

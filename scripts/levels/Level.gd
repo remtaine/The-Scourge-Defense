@@ -20,4 +20,4 @@ func _physics_process(delta):
 			child.get_node("StateLabel").visible = !child.get_node("StateLabel").visible
 
 func _on_combo_extended(val):
-	$LevelUI/ComboLabel.set_combo(val)
+	$LevelUI/ComboText/ComboLabel.set_combo(val)
