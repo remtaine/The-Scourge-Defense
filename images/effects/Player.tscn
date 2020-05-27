@@ -76,7 +76,7 @@ animations = [ {
 "speed": 6.0
 }, {
 "frames": [ ExtResource( 43 ), ExtResource( 44 ), ExtResource( 41 ), ExtResource( 42 ) ],
-"loop": false,
+"loop": true,
 "name": "cast_turning_spell",
 "speed": 5.0
 }, {
@@ -157,8 +157,8 @@ position = Vector2( 0, 1.77321 )
 scale = Vector2( 1.36, 0.025 )
 shape = SubResource( 1 )
 
-[node name="Body" type="KinematicBody2D" parent="."]
-position = Vector2( 0, -84.5272 )
+[node name="Body" type="Area2D" parent="."]
+position = Vector2( 0, -44.4369 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
 position = Vector2( 0, 41.7769 )
@@ -233,3 +233,7 @@ one_shot = true
 [node name="AttackSound" type="AudioStreamPlayer2D" parent="Sounds"]
 
 [node name="MovementSound" type="AudioStreamPlayer2D" parent="Sounds"]
+[connection signal="animation_finished" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="frame_changed" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
+[connection signal="animation_finished" from="AnimationPlayer/HurtAnimationPlayer" to="." method="_on_HurtAnimationPlayer_animation_finished"]
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]

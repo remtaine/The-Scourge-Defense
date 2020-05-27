@@ -162,5 +162,7 @@ func flip(val = null):
 		sprite.scale.x = current_sprite_scale.x
 		is_flipped = false
 
-func air_move(delta, vel = _air_velocity):
-	return body.move_and_collide(vel, Vector2(0, -1) * delta)
+#	pass
+#	var snap = Vector2.DOWN * 16 if is_on_floor() else Vector2.ZERO
+#	return body.move_and_slide_with_snap(_air_velocity, snap, Vector2.UP)
+#	return body.move_and_collide(vel * delta)

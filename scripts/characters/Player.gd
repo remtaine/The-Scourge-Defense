@@ -32,8 +32,8 @@ onready var roll_sound = preload("res://sfx/characters/player/movement/ROLL.wav"
 onready var jump_sound = preload("res://sfx/characters/player/movement/JUMP 1 (for SMALL SIZE or PLAYER).wav")
 onready var land_sound = preload("res://sfx/characters/player/movement/JUMP LANDING.wav")
 
-onready var punchbox = $AnimatedSprite/Hitboxes/PunchHitbox
-onready var airkickbox = $AnimatedSprite/Hitboxes/AirKickHitbox
+onready var punchbox = $Body/AnimatedSprite/Hitboxes/PunchHitbox
+onready var airkickbox = $Body/AnimatedSprite/Hitboxes/AirKickHitbox
 
 onready var spellbox = hitboxes.get_node("SpellHitbox")
 func _init():
@@ -42,7 +42,7 @@ func _init():
 		STATES.IDLE: Vector3(0, 0, 0),
 		STATES.RUN: Vector3(300, 150, 100),
 		STATES.JUMP: Vector3(200, 100, 100),
-		STATES.ROLL: Vector3(500, 250, 100),
+		STATES.ROLL: Vector3(400, 200, 100),
 	}
 
 	MAX_SPEED = {
@@ -156,6 +156,8 @@ func _physics_process(delta):
 						continue_combo = 3
 		STATES.JUMP:
 			pass
+#			if body.is_on_floor():
+				
 			#TODO insert animate_jump code
 			
 			
@@ -166,7 +168,7 @@ func _physics_process(delta):
 #			_velocity.y = clamp(_velocity.y, -MAX_SPEED[_state].y, MAX_SPEED[_state].y)
 			
 	match _state: #match for flipping
-		STATES.ATTACK_PUNCH, STATES.IDLE, STATES.HURT, STATES.DIE:
+		STATES.ATTACK_PUNCH, STATES.IDLE, STATES.HURT, STATES.DIE, STATES.CASTING_TURNING_SPELL:
 			pass
 #		STATES.HURT, STATES.DIE:
 #			flip(_velocity.x > 0)
@@ -174,10 +176,15 @@ func _physics_process(delta):
 			flip(_velocity.x < 0)
 
 	move_and_slide(_velocity)
+#	if collision:
+#		# To make the other kinematicbody2d move as well
+##		collision.collider.velocity = velocity.length() * -collision.normal
+##		velocity = velocity.bounce(collision.normal) * 0.5
+#		collision.collider.global_position.y += -_velocity.y * delta
 #	body.move_and_slide(_velocity)
 	
-	_air_velocity.y += 10
-#	_air_velocity = air_move(delta, _air_velocity)
+#	_air_velocity.y += 10
+#	air_move(delta, _air_velocity)
 
 func _set_speed(value):
 	if _speed == value:
@@ -224,6 +231,7 @@ func enter_state():
 			hurt_anim_player.play("hurt")
 
 func animate_jump(progress):
+	pass
 	var jump_height
 	if is_falling:
 		var limit = clamp(progress + JUMP_FALL_DISCREPANCY, 0, 1)
@@ -231,7 +239,7 @@ func animate_jump(progress):
 	else:	
 		jump_height = MAX_JUMP_HEIGHT * pow(sin(progress * PI), 0.7)
 	var shadow_scale = 1.0 - (jump_height/MAX_JUMP_HEIGHT * 0.5)
-	
+
 	sprite.position.y = jump_height
 	shadow_sprite.scale = Vector2(shadow_scale, shadow_scale) * current_shadow_scale
 	if prev_jump_height < jump_height: #meaning he's already going dowwnnn
@@ -301,10 +309,6 @@ func _on_Tween_tween_completed(object, key):
 	
 	if key == ":disable":
 		change_state(EVENTS.CASTING_SPELL_END)
-		
-func _on_turn_enemy():
-	pass
-#	print("ENEMY TURNED")
 
 func _on_AnimatedSprite_frame_changed():
 	match sprite.animation:
