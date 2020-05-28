@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/PLAYER HURT.wav-81c367f84e835d7db24d576dc7b91c29.sample"
+
+[deps]
+
+source_file="res://sfx/characters/player/hurt/PLAYER HURT.wav"
+dest_files=[ "res://.import/PLAYER HURT.wav-81c367f84e835d7db24d576dc7b91c29.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

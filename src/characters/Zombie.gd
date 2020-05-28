@@ -56,7 +56,7 @@ func _init():
 	_speed = SPEED[_state]
 
 func _ready():
-	pass
+	$Sounds/SummonedSound.play()
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")
 
 func setup(g_pos):

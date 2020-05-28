@@ -8,7 +8,7 @@ var SPEED
 var MAX_SPEED
 
 const JUMP_DURATION = 1.0
-const MAX_JUMP_HEIGHT = -100
+const MAX_JUMP_HEIGHT = 100
 const MAX_KNOCKBACK_HEIGHT = -10
 
 const ATTACK_DIST = 30
@@ -16,7 +16,7 @@ const CHASE_DIST = 300
 var prev_jump_height = 100
 var jump_vel = 0
 var jump_pos = 0
-
+var pos_before_knockback
 #var _collision_normal = Vector2()
 #var _last_input_direction = Vector2()
 
@@ -100,19 +100,25 @@ func _physics_process(delta):
 		frozen_duration = 0.0
 
 		match _state: # after being frozen
-			STATES.HURT, STATES.DIE:
+			STATES.HURT, STATES.DIE, STATES.KNOCKED_UP:
 				if _state == STATES.DIE:
 					sprite.play("die")
 					$Sounds/DeathSound.play()
-				else:
+				elif _state == STATES.KNOCKED_UP:
+					knock_up()
 					sprite.play("hurt")
+				else:
+					knock_up() #TODO REMOVE THIS					
+					sprite.play("hurt")
+				if not $Sounds/HurtSound.is_playing():
+					$Sounds/HurtSound.play()
 				$HurtAnimationPlayer.play("hurt")
 				if last_damaged_by.instance_name == "player":
 					if not last_damaged_by.is_flipped:#ie player is at left
 						_velocity.x = KNOCKBACK_LENGTH
 					else:
 						_velocity.x = -KNOCKBACK_LENGTH
-					last_damaged_by.camera_shake.start()
+					last_damaged_by.camera_shake.start(0, 0.2, 15.0 , 5)
 			STATES.ATTACK:
 				print("ENEMY ATTACKED!")
 				$Sounds/AttackSound.play()
@@ -195,7 +201,7 @@ func enter_state():
 			sprite.play("jump")
 			tween.interpolate_method(self, "animate_jump", 0, 1, JUMP_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN)
 			tween.start()
-		STATES.HURT:
+		STATES.HURT, STATES.KNOCKED_UP:
 			if frozen_duration == 0.0:
 				frozen_duration = BASE_FREEZE_DURATION			
 	
@@ -206,23 +212,6 @@ func enter_state():
 #			_velocity.x /= tem
 		STATES.DIE:
 			frozen_duration = BASE_FREEZE_DURATION
-
-func animate_jump(progress):
-	var jump_height = MAX_JUMP_HEIGHT * pow(sin(progress * PI), 0.7)
-	var shadow_scale = 1.0 - (jump_height/MAX_JUMP_HEIGHT * 0.5)
-	
-	sprite.position.y = jump_height
-	shadow_sprite.scale = Vector2(shadow_scale, shadow_scale) * current_shadow_scale
-	if prev_jump_height < jump_height and sprite.animation == "jump": #meaning he's already going dowwnnn
-		sprite.play("fall")
-	prev_jump_height = jump_height
-
-func animate_knockback(progress):
-	var knockback_height = (MAX_KNOCKBACK_HEIGHT) * pow(sin(progress * PI), 0.7)
-	var shadow_scale = 1.0 - (knockback_height/MAX_KNOCKBACK_HEIGHT * 0.1)
-	
-	sprite.position.y = knockback_height
-	shadow_sprite.scale = Vector2(shadow_scale, shadow_scale) * current_shadow_scale
 		
 static func get_raw_input(state):
 	return {
@@ -277,12 +266,55 @@ func _on_Tween_tween_completed(object, key):
 		":animate_jump":
 			prev_jump_height = 100
 			change_state(EVENTS.LAND)
+	
+	if key == ":animate_knock_up":
+		change_state(EVENTS.KNOCKED_UP_END)
+#		knock_down()
+#			else:
+#				print("KNOCK DOWN DONE")
 #		":animate_knockback":
 #			print("KNOCKBACK BRO")
 #			change_state(EVENTS.HURT_END)
 
 func search_nearest_target():
 	pass
+
+func animate_knock_up(progress):
+	var max_height = 50
+	var knockback_height = (max_height) * pow(sin(progress * PI), 0.7)
+	var shadow_scale = 1.0 - (knockback_height/max_height * 0.1)
+	
+	sprite.position.y = -knockback_height
+	shadow_sprite.scale = Vector2(shadow_scale, shadow_scale) * current_shadow_scale
+
+func animate_knock_down(progress):
+	var max_height = 20
+	var knockback_height = (max_height) * pow(sin(progress * PI), 0.9)
+	var shadow_scale = 1.0 - (knockback_height/max_height * 0.1)
+	
+	sprite.position.y = pos_before_knockback.y - knockback_height
+	shadow_sprite.scale = Vector2(shadow_scale, shadow_scale) * current_shadow_scale
+	print ("POS Y IS NOW ", sprite.position.y)
+	
+func animate_jump(progress):
+	var jump_height
+	jump_height = MAX_JUMP_HEIGHT * pow(sin(progress * PI), 0.7)
+	var shadow_scale = 1.0 - (jump_height/MAX_JUMP_HEIGHT * 0.5)
+	
+	sprite.position.y = -jump_height
+	shadow_sprite.scale = Vector2(shadow_scale, shadow_scale) * current_shadow_scale
+
+func knock_up():
+	var kn_duration = 0.7
+	pos_before_knockback = sprite.position
+	$Tween.interpolate_method(self,"animate_knock_up", 0, 1, kn_duration,Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$Tween.start()
+
+func knock_down():
+	var kn_duration = 0.1
+#	$Tween.interpolate_property(sprite, "position", temp, Vector2(temp.x, 0), kn_duration, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$Tween.interpolate_method(self,"animate_knock_down", 0.5, 1, kn_duration,Tween.TRANS_LINEAR, Tween.EASE_IN)
+	$Tween.start()
 
 func _on_has_turned():
 	var zombie = zombie_resource.instance()
@@ -292,8 +324,8 @@ func _on_has_turned():
 	print("ENEMY HAS BEEEN TURNED")
 
 func _on_HurtAnimationPlayer_animation_finished(anim_name):
-	if anim_name == "hurt":
-		print("HUR DONE")
+	if anim_name == "hurt" and _state != STATES.KNOCKED_UP:
+		print("HURT DONE")
 		change_state(EVENTS.HURT_END)
 	
 func _on_AnimatedSprite_frame_changed():

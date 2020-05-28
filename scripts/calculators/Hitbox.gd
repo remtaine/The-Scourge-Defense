@@ -11,3 +11,10 @@ func _on_Hitbox_area_entered(area):
 			if host.is_in_group("player"):
 				emit_signal("hit_enemy")
 			area.emit_signal("took_damage", host)
+
+func enable():
+	$AnimationPlayer.play("flash")
+
+func disable():
+	$AnimationPlayer.stop()
+	$CollisionShape2D.disabled = true

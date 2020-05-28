@@ -1,13 +1,14 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://images/characters/enemies/slime/attack/slime-attack-1.png" type="Texture" id=1]
 [ext_resource path="res://images/characters/enemies/slime/attack/slime-attack-3.png" type="Texture" id=2]
 [ext_resource path="res://images/characters/enemies/slime/attack/slime-attack-0.png" type="Texture" id=3]
 [ext_resource path="res://images/characters/enemies/slime/attack/slime-attack-4.png" type="Texture" id=4]
 [ext_resource path="res://images/characters/enemies/slime/attack/slime-attack-2.png" type="Texture" id=5]
-[ext_resource path="res://sfx/characters/player/FIST 1.wav" type="AudioStream" id=6]
+[ext_resource path="res://sfx/characters/enemies/attack/BLADE MISS 1.wav" type="AudioStream" id=6]
 [ext_resource path="res://sfx/characters/enemies/captured/ENEMY CAPTURE 2.wav" type="AudioStream" id=7]
 [ext_resource path="res://images/placeholders/circle of light.png" type="Texture" id=8]
+[ext_resource path="res://sfx/characters/enemies/hurt/ENEMY HURT.wav" type="AudioStream" id=9]
 [ext_resource path="res://src/characters/Enemy.gd" type="Script" id=14]
 [ext_resource path="res://fonts/BebasNeue Bold.ttf" type="DynamicFontData" id=15]
 [ext_resource path="res://images/characters/enemies/slime/idle/slime-idle-0.png" type="Texture" id=22]
@@ -64,7 +65,7 @@ animations = [ {
 "speed": 6.0
 } ]
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 resource_name = "hurt"
 length = 0.2
 step = 0.05
@@ -130,7 +131,7 @@ position = Vector2( 0, 6.38747 )
 scale = Vector2( 0.920001, 0.552 )
 
 [node name="HurtAnimationPlayer" type="AnimationPlayer" parent="."]
-anims/hurt = SubResource( 6 )
+anims/hurt = SubResource( 4 )
 
 [node name="StateLabel" type="Label" parent="."]
 visible = false
@@ -172,6 +173,9 @@ stream = ExtResource( 6 )
 
 [node name="CapturedSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 7 )
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 9 )
 [connection signal="animation_finished" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="frame_changed" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
 [connection signal="animation_finished" from="HurtAnimationPlayer" to="." method="_on_HurtAnimationPlayer_animation_finished"]

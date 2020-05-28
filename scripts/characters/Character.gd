@@ -12,6 +12,7 @@ var STATES = {
 	DIE = "DIE",
 	#player only
 	ATTACK_PUNCH = "ATTACK PUNCH",
+	ATTACK_RUN_PUNCH = "ATTACK RUNNING PUNCH",
 	ATTACK_AIR_KICK = "ATTACK AIR KICK",
 	JUMP = "JUMP",
 	ROLL = "ROLL",
@@ -20,6 +21,7 @@ var STATES = {
 	#zombies only
 	CHASE = "CHASE",
 	ATTACK = "ATTACK",
+	KNOCKED_UP = "KNOCKED UP",
 }
 
 var EVENTS = {
@@ -32,6 +34,8 @@ var EVENTS = {
 	HURT_END = "EVENT HURT_END",
 	KNOCKED_DOWN = "EVENT KNOCKED DOWN",
 	GET_UP = "EVENT GET_UP",
+	KNOCKED_UP = "KNOCKED UP",
+	KNOCKED_UP_END = "KNOCKED UP END",	
 	#player only
 	JUMP = "EVENT JUMP",
 	ROLL = "EVENT ROLL",
@@ -165,7 +169,6 @@ func flip(val = null):
 	else:
 		sprite.scale.x = current_sprite_scale.x
 		is_flipped = false
-
 #	pass
 #	var snap = Vector2.DOWN * 16 if is_on_floor() else Vector2.ZERO
 #	return body.move_and_slide_with_snap(_air_velocity, snap, Vector2.UP)

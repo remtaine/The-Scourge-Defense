@@ -10,6 +10,7 @@ var zombies = []
 var allies = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Util.current_level = self
 	$Characters/Player.setup(self)
 	pass # Replace with function body.
 	for child in $Characters.get_children():

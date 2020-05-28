@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/ui/ComboLabel.gd" type="Script" id=1]
 [ext_resource path="res://fonts/KaushanScript-Regular.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://src/helpers/ObjectShakeGenerator.tscn" type="PackedScene" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
@@ -26,6 +27,12 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
 }
 
+[sub_resource type="DynamicFont" id=3]
+size = 32
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
 [node name="ComboText" type="Position2D"]
 
 [node name="ComboLabel" type="Label" parent="."]
@@ -35,7 +42,7 @@ margin_right = 90.3664
 margin_bottom = 32.8726
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 1 )
-text = "Combo x0"
+text = "x0"
 align = 1
 script = ExtResource( 1 )
 __meta__ = {
@@ -50,5 +57,19 @@ one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ComboLabel"]
 anims/emphasize = SubResource( 2 )
+
+[node name="UpperLabel" type="Label" parent="ComboLabel"]
+margin_left = 54.1498
+margin_top = -26.2794
+margin_right = 185.15
+margin_bottom = 44.7206
+custom_fonts/font = SubResource( 3 )
+text = "Combo"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ObjectShakeGenerator" parent="." instance=ExtResource( 3 )]
+position = Vector2( -102.634, -38.1274 )
 [connection signal="timeout" from="ComboLabel/ComboTimer" to="ComboLabel" method="_on_ComboTimer_timeout"]
 [connection signal="tween_completed" from="ComboLabel/Tween" to="ComboLabel" method="_on_Tween_tween_completed"]

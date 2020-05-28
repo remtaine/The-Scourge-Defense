@@ -5,6 +5,8 @@ const FADE_DURATION = 0.5
 var combo = 0 setget set_combo, get_combo
 onready var combo_timer = $ComboTimer
 onready var tween = $Tween
+onready var shaker = get_parent().get_node("ObjectShakeGenerator")
+
 var cm
 func _ready():
 	cm = modulate
@@ -14,13 +16,14 @@ func set_combo(val):
 	if val == 0:
 		combo = 0
 	else:
+		shaker.start()
 		$AnimationPlayer.play("emphasize")
 		modulate = cm #resets modulate
 		combo += val
 	
 	if combo >= 2:
 		visible = true
-		text = "Combo x" + String(combo)
+		text = "x" + String(combo)
 		combo_timer.start()
 	else:
 		visible = false

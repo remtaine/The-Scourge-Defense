@@ -9,7 +9,7 @@ var SPEED
 var MAX_SPEED
 
 const JUMP_DURATION = 0.7
-const MAX_JUMP_HEIGHT = -100
+const MAX_JUMP_HEIGHT = -60
 const JUMP_FALL_DISCREPANCY = 0.05
 
 var prev_jump_height = 100
@@ -34,6 +34,7 @@ onready var land_sound = preload("res://sfx/characters/player/movement/JUMP LAND
 
 onready var punchbox = $Body/AnimatedSprite/Hitboxes/PunchHitbox
 onready var airkickbox = $Body/AnimatedSprite/Hitboxes/AirKickHitbox
+onready var runpunchbox = $Body/AnimatedSprite/Hitboxes/RunPunchHitbox
 
 onready var spellbox = hitboxes.get_node("SpellHitbox")
 func _init():
@@ -60,8 +61,9 @@ func _init():
 		[STATES.ROLL, EVENTS.ROLL_END]: STATES.IDLE,	
 		
 		[STATES.IDLE, EVENTS.ATTACK]: STATES.ATTACK_PUNCH,
-		[STATES.RUN, EVENTS.ATTACK]: STATES.ATTACK_PUNCH,	
+		[STATES.RUN, EVENTS.ATTACK]: STATES.ATTACK_RUN_PUNCH,	
 		[STATES.ATTACK_PUNCH, EVENTS.ATTACK_END]: STATES.IDLE,	
+		[STATES.ATTACK_RUN_PUNCH, EVENTS.ATTACK_END]: STATES.IDLE,	
 		
 		[STATES.IDLE, EVENTS.JUMP]: STATES.JUMP,
 		[STATES.RUN, EVENTS.JUMP]: STATES.JUMP,	
@@ -78,6 +80,7 @@ func _init():
 		[STATES.RUN, EVENTS.HURT]: STATES.HURT,	
 		[STATES.CASTING_TURNING_SPELL, EVENTS.HURT]: STATES.HURT,
 		[STATES.ATTACK_PUNCH, EVENTS.HURT]: STATES.HURT,	
+		[STATES.ATTACK_RUN_PUNCH, EVENTS.HURT]: STATES.HURT,	
 		[STATES.JUMP, EVENTS.HURT]: STATES.HURT,	
 		[STATES.ATTACK_AIR_KICK, EVENTS.HURT]: STATES.HURT,	
 		[STATES.HURT, EVENTS.HURT_END]: STATES.IDLE,	
@@ -113,7 +116,9 @@ func _physics_process(delta):
 					$Sounds/DeathSound.play()
 				else:
 					sprite.play("hurt")
-				$AnimationPlayer/HurtAnimationPlayer.play("hurt")
+				if not $Sounds/HurtSound.is_playing():
+					$Sounds/HurtSound.play()
+				$HurtAnimationPlayer.play("hurt")
 				if last_damaged_by.instance_name == "enemy":
 #					print("hit by enemy!")
 					#TODO change to is_facing
@@ -125,7 +130,7 @@ func _physics_process(delta):
 #				if not tween.is_active():
 #					tween.interpolate_method(self, "animate_knockback", 0, 1, hurt_anim_player.current_animation_length, Tween.TRANS_LINEAR, Tween.EASE_IN)
 #					tween.start()
-			STATES.ATTACK_PUNCH, STATES.ATTACK_AIR_KICK:
+			STATES.ATTACK_PUNCH, STATES.ATTACK_AIR_KICK, STATES.ATTACK_RUN_PUNCH:
 				pass
 #				$Sounds/AttackSound.stop()
 #				match continue_combo:
@@ -141,20 +146,22 @@ func _physics_process(delta):
 	change_state(event)
 	
 	match _state: #match for velocity
-		STATES.RUN:
+		STATES.RUN, STATES.JUMP, STATES.ATTACK_RUN_PUNCH:
 			_dir = input.direction
 			continue
-		STATES.JUMP, STATES.RUN, STATES.ROLL:
+		STATES.JUMP, STATES.RUN, STATES.ROLL, STATES.ATTACK_RUN_PUNCH:
 			_velocity.x = _speed.x * _dir.x
 			_velocity.y = _speed.y * _dir.y
 			continue
+		STATES.ATTACK_RUN_PUNCH:
+			_velocity *= 0.8
 		STATES.IDLE, STATES.CASTING_TURNING_SPELL, STATES.ATTACK_PUNCH:
 			_velocity = Vector2(0, 0)
-			if Input.is_action_just_pressed("attack"):
+			if Input.is_action_pressed("attack"):
 				match (sprite.get_frame()):
 					2,3,4:
 						continue_combo = 2
-					6,7,8:
+					5,6,7:
 						continue_combo = 3
 		STATES.JUMP:
 			pass
@@ -198,11 +205,13 @@ func enter_state():
 	$StateLabel.text = _state
 	
 	match prev_state:
+		STATES.CASTING_TURNING_SPELL, STATES.ATTACK_AIR_KICK, STATES.ATTACK_PUNCH, STATES.ATTACK_RUN_PUNCH:
+			$Body/AnimatedSprite/Hitboxes.disable_all()
+			continue
 		STATES.CASTING_TURNING_SPELL:
 			$Sounds/SpellSound.stop()
 			spellbox.hide_sprite()
-		STATES.ATTACK_AIR_KICK:
-			airkickbox.disable()
+
 	match _state:
 		STATES.IDLE:
 			sprite.play("idle")
@@ -221,6 +230,8 @@ func enter_state():
 			continue
 		STATES.ATTACK_PUNCH:	
 			sprite.play("attack_punch")
+		STATES.ATTACK_RUN_PUNCH:	
+			sprite.play("attack_run_punch")
 		STATES.ATTACK_AIR_KICK:
 			sprite.play("attack_air_kick")
 #			_speed *= 1.5
@@ -242,11 +253,11 @@ func enter_state():
 func animate_jump(progress):
 	pass
 	var jump_height
-	if is_falling:
-		var limit = clamp(progress + JUMP_FALL_DISCREPANCY, 0, 1)
-		jump_height = MAX_JUMP_HEIGHT * pow(sin((limit) * PI), 0.7)
-	else:	
-		jump_height = MAX_JUMP_HEIGHT * pow(sin(progress * PI), 0.7)
+#	if is_falling:
+#		var limit = clamp(progress + JUMP_FALL_DISCREPANCY, 0, 1)
+#		jump_height = MAX_JUMP_HEIGHT * pow(sin((limit) * PI), 0.7)
+#	else:	
+	jump_height = MAX_JUMP_HEIGHT * pow(sin(progress * PI), 0.7)
 	var shadow_scale = 1.0 - (jump_height/MAX_JUMP_HEIGHT * 0.5)
 
 	sprite.position.y = jump_height
@@ -295,7 +306,7 @@ func decode_raw_input(input):
 
 func _on_AnimatedSprite_animation_finished():
 	match sprite.animation:
-		"attack_punch":
+		"attack_punch", "attack_run_punch":
 			change_state(EVENTS.ATTACK_END)
 		"roll":
 			sprite.position.y = 0		
@@ -321,7 +332,7 @@ func _on_AnimatedSprite_frame_changed():
 	match sprite.animation:
 		"attack_punch":
 			match sprite.get_frame():
-				6:
+				5:
 					if continue_combo == 2:
 						play_sound(fist_sound2)	
 						punchbox.enable()
@@ -330,7 +341,7 @@ func _on_AnimatedSprite_frame_changed():
 						change_state(EVENTS.ATTACK_END)
 						continue_combo = 0						
 					continue
-				10:
+				8:
 					if continue_combo == 3:
 						play_sound(fist_sound3) #TODO change to combo once knocked down in effect
 						punchbox.enable()
@@ -350,11 +361,21 @@ func _on_AnimatedSprite_frame_changed():
 		"roll":
 			match sprite.get_frame():
 				1:
-					sprite.position.y = 17
+					pass
+#					sprite.position.y = 17
 		"attack_air_kick":
 			match sprite.get_frame(): #TODO CREATE custom hitbox for kick
 				2:
 					airkickbox.enable()
+				2:
+					airkickbox.disable()
+		"attack_run_punch":
+			match sprite.get_frame(): #TODO CREATE custom hitbox for kick
+				3:
+					play_sound(fist_sound1)
+					runpunchbox.enable()
+				4: 
+					runpunchbox.disable()
 
 func play_sound(sound):
 	match sound:
