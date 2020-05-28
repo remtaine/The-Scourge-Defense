@@ -159,15 +159,19 @@ func flip(val = null):
 	if val == null:
 		if not is_flipped:
 			sprite.scale.x = -current_sprite_scale.x
+			shadow_sprite.scale.x = -current_shadow_scale.x
 			is_flipped = true
 		else:
 			sprite.scale.x = current_sprite_scale.x
+			shadow_sprite.scale.x = current_shadow_scale.x
 			is_flipped = false
 	elif val:
 		sprite.scale.x = -current_sprite_scale.x
+		shadow_sprite.scale.x = -current_shadow_scale.x		
 		is_flipped = true
 	else:
 		sprite.scale.x = current_sprite_scale.x
+		shadow_sprite.scale.x = current_shadow_scale.x
 		is_flipped = false
 #	pass
 #	var snap = Vector2.DOWN * 16 if is_on_floor() else Vector2.ZERO

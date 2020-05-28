@@ -114,9 +114,9 @@ animations = [ {
 "speed": 6.0
 }, {
 "frames": [ ExtResource( 54 ), ExtResource( 55 ), ExtResource( 56 ) ],
-"loop": true,
+"loop": false,
 "name": "hurt",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [ ExtResource( 45 ), ExtResource( 59 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 60 ), ExtResource( 61 ) ],
 "loop": false,
@@ -131,7 +131,7 @@ animations = [ {
 
 [sub_resource type="Animation" id=4]
 resource_name = "hurt"
-length = 0.1
+length = 0.2
 step = 0.025
 tracks/0/type = "value"
 tracks/0/path = NodePath("Body/AnimatedSprite:self_modulate")
@@ -140,10 +140,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.15, 0.2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [node name="Player" type="KinematicBody2D" groups=[

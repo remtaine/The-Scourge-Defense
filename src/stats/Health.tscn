@@ -5,10 +5,15 @@
 
 [node name="Health" type="Node2D"]
 script = ExtResource( 1 )
+is_left_side = null
+is_right_side = null
+is_overhead = null
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
+[node name="Node" type="Node" parent="."]
 
-[node name="LeftSideHealthBar" type="TextureProgress" parent="CanvasModulate"]
+[node name="CanvasModulate" type="CanvasModulate" parent="Node"]
+
+[node name="LeftSideHealthBar" type="TextureProgress" parent="Node/CanvasModulate"]
 margin_left = 12.0
 margin_top = 12.0
 margin_right = 237.0
@@ -23,7 +28,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RightSideHealthBar" type="TextureProgress" parent="CanvasModulate"]
+[node name="RightSideHealthBar" type="TextureProgress" parent="Node/CanvasModulate"]
 margin_left = 776.491
 margin_top = 12.0
 margin_right = 1001.49
@@ -39,11 +44,11 @@ __meta__ = {
 }
 
 [node name="OverheadHealthBar" type="TextureProgress" parent="."]
-margin_left = -69.4337
-margin_top = -89.1534
-margin_right = 155.566
-margin_bottom = 135.847
-rect_scale = Vector2( 0.6, 0.1 )
+margin_left = -32.4988
+margin_top = -46.4268
+margin_right = 192.501
+margin_bottom = 178.574
+rect_scale = Vector2( 0.3, 0.05 )
 value = 50.0
 texture_under = ExtResource( 2 )
 texture_progress = ExtResource( 2 )

@@ -211,6 +211,9 @@ func enter_state():
 		STATES.CASTING_TURNING_SPELL:
 			$Sounds/SpellSound.stop()
 			spellbox.hide_sprite()
+		STATES.JUMP:
+			if sprite.animation == "fall":
+				sprite.rotation = 0
 
 	match _state:
 		STATES.IDLE:
@@ -330,6 +333,10 @@ func _on_Tween_tween_completed(object, key):
 
 func _on_AnimatedSprite_frame_changed():
 	match sprite.animation:
+		"fall":
+			match sprite.get_frame():
+				0:
+					sprite.rotation_degrees = -20
 		"attack_punch":
 			match sprite.get_frame():
 				5:
