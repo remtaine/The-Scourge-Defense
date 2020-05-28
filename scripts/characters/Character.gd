@@ -52,7 +52,7 @@ onready var hurt_timer = $Timers/HurtTimer
 onready var frozen_timer = $Timers/FrozenTimer
 onready var stunned_timer = $Timers/StunnedTimer
 onready var timers = $Timers
-
+onready var health = $Health
 
 var current_target = null
 var has_been_attacked = false
@@ -131,23 +131,37 @@ func _on_hit_enemy(multiplier = 1):
 		frozen_duration = BASE_FREEZE_DURATION
 
 func _on_take_damage(damager, dmg = base_damage):
-	print("TOOK DAMAGE")
 	last_damaged_by = damager
 	if not has_been_attacked:
 		has_been_attacked = true
 		current_target = last_damaged_by
 #	print("LAST DAMAGED BY ", damager.instance_name)
-	hp -= dmg #TODO add damage
-#	print(instance_name, " has been hit with HP left of ", hp)	
-	if hp <= 0:
-#		print(instance_name, "IS DEAD")
-		is_alive = false
-		change_state(EVENTS.DIE)
+	 #TODO add damage
+	health.update_health(dmg)
+	
+	
+func _on_just_died():
+	print(instance_name, "IS DEAD")
+	is_alive = false
+	change_state(EVENTS.DIE)
+
+func _on_got_hurt():
+	if instance_name == "player":
+		print ("player got hurt")
 	else:
-		stunned_timer.start()
-		change_state(EVENTS.HURT)
-#		frozen_duration = 1.0
-#		frozen_timer.start()
+		print("jk lol")
+	stunned_timer.start()
+	change_state(EVENTS.HURT)
+	if frozen_duration == 0.0:
+		frozen_duration = 1.0
+		frozen_timer.start()
+#	print(instance_name, " has been hit with HP left of ", hp)	
+#	if hp <= 0:
+##		
+#	else:
+#		
+
+
 
 func is_facing(target):
 	if is_flipped: #im facing left

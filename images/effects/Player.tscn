@@ -1,135 +1,26 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://images/characters/new player/run/player_run2.png" type="Texture" id=1]
-[ext_resource path="res://images/characters/new player/idle/player_idle1.png" type="Texture" id=2]
-[ext_resource path="res://images/characters/new player/run/player_run4.png" type="Texture" id=3]
-[ext_resource path="res://images/characters/new player/3hit/player_3hit2.png" type="Texture" id=4]
-[ext_resource path="res://images/characters/new player/3hit/player_3hit1.png" type="Texture" id=5]
-[ext_resource path="res://images/characters/new player/3hit/player_3hit3.png" type="Texture" id=6]
-[ext_resource path="res://images/characters/new player/3hit/player_3hit4.png" type="Texture" id=7]
-[ext_resource path="res://images/characters/new player/3hit/player_3hit5.png" type="Texture" id=8]
-[ext_resource path="res://images/characters/new player/3hit/player_3hit8.png" type="Texture" id=9]
-[ext_resource path="res://images/characters/new player/teleport/player_teleport1.png" type="Texture" id=10]
-[ext_resource path="res://images/characters/new player/3hit/player_3hit6.png" type="Texture" id=11]
-[ext_resource path="res://images/characters/new player/3hit/player_3hit9.png" type="Texture" id=12]
-[ext_resource path="res://images/characters/new player/3hit/player_3hit10.png" type="Texture" id=13]
-[ext_resource path="res://images/characters/new player/3hit/player_3hit7.png" type="Texture" id=14]
-[ext_resource path="res://images/characters/new player/runhit/player_runhit3.png" type="Texture" id=15]
-[ext_resource path="res://images/characters/new player/runhit/player_runhit4.png" type="Texture" id=16]
+[ext_resource path="res://spriteframes/Player.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://src/stats/Health.tscn" type="PackedScene" id=2]
+[ext_resource path="res://sfx/characters/player/death/DEATH 1 (PLAYER).wav" type="AudioStream" id=3]
 [ext_resource path="res://scripts/characters/Player.gd" type="Script" id=17]
-[ext_resource path="res://images/characters/new player/run/player_run1.png" type="Texture" id=18]
-[ext_resource path="res://images/characters/new player/run/player_run3.png" type="Texture" id=19]
-[ext_resource path="res://images/characters/new player/idle/player_idle3.png" type="Texture" id=20]
-[ext_resource path="res://images/characters/new player/idle/player_idle2.png" type="Texture" id=21]
-[ext_resource path="res://images/characters/new player/run/player_run5.png" type="Texture" id=22]
-[ext_resource path="res://images/characters/new player/run/player_run6.png" type="Texture" id=23]
 [ext_resource path="res://images/placeholders/circle of light.png" type="Texture" id=24]
-[ext_resource path="res://images/characters/new player/teleport/player_teleport2.png" type="Texture" id=25]
-[ext_resource path="res://images/characters/new player/teleport/player_teleport3.png" type="Texture" id=26]
-[ext_resource path="res://images/characters/new player/teleport/player_teleport4.png" type="Texture" id=27]
-[ext_resource path="res://images/characters/new player/jump/player_jump1.png" type="Texture" id=28]
 [ext_resource path="res://src/helpers/StateLabel.tscn" type="PackedScene" id=29]
-[ext_resource path="res://images/characters/new player/jump/player_jump2.png" type="Texture" id=30]
-[ext_resource path="res://images/characters/new player/jump/player_jump3.png" type="Texture" id=32]
-[ext_resource path="res://images/characters/new player/castingspell/player_castingspell1.png" type="Texture" id=33]
-[ext_resource path="res://images/characters/new player/castingspell/player_castingspell2.png" type="Texture" id=34]
-[ext_resource path="res://images/characters/new player/jumphit/player_jumphit2.png" type="Texture" id=35]
-[ext_resource path="res://images/characters/new player/jumphit/player_jumphit3.png" type="Texture" id=36]
-[ext_resource path="res://images/characters/new player/jumphit/player_jumphit1.png" type="Texture" id=37]
 [ext_resource path="res://src/calculators/Hurtbox.tscn" type="PackedScene" id=38]
 [ext_resource path="res://src/calculators/Hitbox.tscn" type="PackedScene" id=39]
 [ext_resource path="res://src/calculators/SpellHitbox.tscn" type="PackedScene" id=40]
-[ext_resource path="res://images/characters/new player/castingspell/player_castingspell3.png" type="Texture" id=41]
-[ext_resource path="res://images/characters/new player/castingspell/player_castingspell7.png" type="Texture" id=42]
-[ext_resource path="res://images/characters/new player/castingspell/player_castingspell4.png" type="Texture" id=43]
-[ext_resource path="res://images/characters/new player/castingspell/player_castingspell5.png" type="Texture" id=44]
-[ext_resource path="res://images/characters/new player/runhit/player_runhit1.png" type="Texture" id=45]
 [ext_resource path="res://src/helpers/ScreenShakeGenerator.tscn" type="PackedScene" id=46]
-[ext_resource path="res://images/characters/player/die/adventurer-die-01.png" type="Texture" id=47]
-[ext_resource path="res://images/characters/player/die/adventurer-die-03.png" type="Texture" id=48]
-[ext_resource path="res://images/characters/player/die/adventurer-die-05.png" type="Texture" id=49]
-[ext_resource path="res://images/characters/player/die/adventurer-die-02.png" type="Texture" id=50]
-[ext_resource path="res://images/characters/player/die/adventurer-die-04.png" type="Texture" id=51]
-[ext_resource path="res://images/characters/player/die/adventurer-die-06.png" type="Texture" id=52]
-[ext_resource path="res://images/characters/player/die/adventurer-die-00.png" type="Texture" id=53]
-[ext_resource path="res://images/characters/new player/hurt/player_hurt1.png" type="Texture" id=54]
-[ext_resource path="res://images/characters/new player/hurt/player_hurt2.png" type="Texture" id=55]
-[ext_resource path="res://images/characters/new player/hurt/player_hurt3.png" type="Texture" id=56]
 [ext_resource path="res://src/effects/CastingCircle.tscn" type="PackedScene" id=57]
 [ext_resource path="res://sfx/characters/enemies/captured/ENEMY CAPTURE 1.wav" type="AudioStream" id=58]
-[ext_resource path="res://images/characters/new player/runhit/player_runhit2.png" type="Texture" id=59]
-[ext_resource path="res://images/characters/new player/runhit/player_runhit5.png" type="Texture" id=60]
-[ext_resource path="res://images/characters/new player/runhit/player_runhit6.png" type="Texture" id=61]
 [ext_resource path="res://scripts/helpers/HitboxHandler.gd" type="Script" id=65]
 [ext_resource path="res://sfx/characters/player/hurt/PLAYER HURT.wav" type="AudioStream" id=66]
-[ext_resource path="res://images/characters/new player/fall/player_fall1.png" type="Texture" id=67]
-[ext_resource path="res://images/characters/new player/castingspell/player_castingspell6.png" type="Texture" id=68]
-[ext_resource path="res://images/characters/new player/castingspell/player_castingspell8.png" type="Texture" id=69]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10, 51.5552 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
-[sub_resource type="SpriteFrames" id=3]
-animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 21 ), ExtResource( 20 ) ],
-"loop": true,
-"name": "idle",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 28 ), ExtResource( 30 ), ExtResource( 32 ) ],
-"loop": false,
-"name": "jump",
-"speed": 12.0
-}, {
-"frames": [ ExtResource( 18 ), ExtResource( 1 ), ExtResource( 19 ), ExtResource( 3 ), ExtResource( 22 ), ExtResource( 23 ) ],
-"loop": true,
-"name": "run",
-"speed": 8.0
-}, {
-"frames": [ ExtResource( 10 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ) ],
-"loop": false,
-"name": "roll",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 5 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 11 ), ExtResource( 14 ), ExtResource( 9 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 7 ) ],
-"loop": false,
-"name": "attack_punch",
-"speed": 12.0
-}, {
-"frames": [ ExtResource( 37 ), ExtResource( 35 ), ExtResource( 36 ) ],
-"loop": false,
-"name": "attack_air_kick",
-"speed": 12.0
-}, {
-"frames": [ ExtResource( 67 ) ],
-"loop": false,
-"name": "fall",
-"speed": 20.0
-}, {
-"frames": [ ExtResource( 53 ), ExtResource( 47 ), ExtResource( 50 ), ExtResource( 48 ), ExtResource( 51 ), ExtResource( 49 ), ExtResource( 52 ) ],
-"loop": true,
-"name": "die",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 54 ), ExtResource( 55 ), ExtResource( 56 ) ],
-"loop": false,
-"name": "hurt",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 45 ), ExtResource( 59 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 60 ), ExtResource( 61 ) ],
-"loop": false,
-"name": "attack_run_punch",
-"speed": 12.0
-}, {
-"frames": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 41 ), ExtResource( 43 ), ExtResource( 44 ), ExtResource( 68 ), ExtResource( 42 ), ExtResource( 69 ) ],
-"loop": false,
-"name": "cast_turning_spell",
-"speed": 8.0
-} ]
-
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "hurt"
 length = 0.2
 step = 0.025
@@ -140,10 +31,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.025, 0.075, 0.1, 0.125, 0.175, 0.2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [node name="Player" type="KinematicBody2D" groups=[
@@ -163,18 +54,21 @@ texture = ExtResource( 24 )
 position = Vector2( 0, 1.77321 )
 scale = Vector2( 1.36, 0.025 )
 shape = SubResource( 1 )
+__meta__ = {
+"_editor_description_": " 	"
+}
 
 [node name="Body" type="Area2D" parent="."]
 position = Vector2( -1.67249, -27.294 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
-position = Vector2( -0.836243, 25.0521 )
+position = Vector2( -6.56415, 27.916 )
 scale = Vector2( 1, 0.32 )
 shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Body"]
 scale = Vector2( 1.5, 1.5 )
-frames = SubResource( 3 )
+frames = ExtResource( 1 )
 animation = "idle"
 
 [node name="Hitboxes" type="Position2D" parent="Body/AnimatedSprite"]
@@ -206,13 +100,14 @@ position = Vector2( 0, 3.52101 )
 scale = Vector2( 0.472, 1.416 )
 
 [node name="HurtAnimationPlayer" type="AnimationPlayer" parent="."]
-anims/hurt = SubResource( 4 )
+anims/hurt = SubResource( 3 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.95, 0.95 )
 limit_left = 0
 limit_top = 0
+limit_right = 1440
 limit_bottom = 540
 
 [node name="ScreenShakeGenerator" parent="Camera2D" instance=ExtResource( 46 )]
@@ -248,6 +143,12 @@ stream = ExtResource( 66 )
 
 [node name="SpellSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 58 )
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 3 )
+
+[node name="Health" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, -21.4796 )
 [connection signal="animation_finished" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="frame_changed" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
 [connection signal="animation_finished" from="HurtAnimationPlayer" to="." method="_on_HurtAnimationPlayer_animation_finished"]

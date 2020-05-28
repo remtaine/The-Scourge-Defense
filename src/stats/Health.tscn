@@ -5,9 +5,6 @@
 
 [node name="Health" type="Node2D"]
 script = ExtResource( 1 )
-is_left_side = null
-is_right_side = null
-is_overhead = null
 
 [node name="Node" type="Node" parent="."]
 
@@ -44,11 +41,11 @@ __meta__ = {
 }
 
 [node name="OverheadHealthBar" type="TextureProgress" parent="."]
-margin_left = -32.4988
-margin_top = -46.4268
-margin_right = 192.501
-margin_bottom = 178.574
-rect_scale = Vector2( 0.3, 0.05 )
+margin_left = -22.5
+margin_top = -50.0
+margin_right = 202.5
+margin_bottom = 175.001
+rect_scale = Vector2( 0.2, 0.025 )
 value = 50.0
 texture_under = ExtResource( 2 )
 texture_progress = ExtResource( 2 )

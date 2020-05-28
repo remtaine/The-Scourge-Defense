@@ -118,7 +118,7 @@ rotation = -3.14159
 scale = Vector2( 2, -2 )
 frames = SubResource( 2 )
 animation = "run"
-frame = 3
+frame = 1
 playing = true
 
 [node name="Hitboxes" type="Node2D" parent="Body/AnimatedSprite"]

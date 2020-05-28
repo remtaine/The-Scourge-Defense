@@ -12,7 +12,7 @@ const MAX_JUMP_HEIGHT = 100
 const MAX_KNOCKBACK_HEIGHT = -10
 
 const ATTACK_DIST = 30
-const CHASE_DIST = 300
+const CHASE_DIST = 150
 var prev_jump_height = 100
 var jump_vel = 0
 var jump_pos = 0
@@ -77,8 +77,8 @@ func _init():
 	instance_name = "enemy"	
 
 func _ready():
-	current_target = search_nearest_target()
-	
+	choose_target()
+	health.setup(self)
 	_state = STATES.IDLE
 	_speed = SPEED[_state]
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")
@@ -192,7 +192,7 @@ func enter_state():
 		STATES.ROLL:
 			sprite.position.y = 18
 			sprite.play("roll")
-		STATES.RUN:
+		STATES.RUN, STATES.CHASE:
 			sprite.play("run")
 		STATES.ATTACK:
 			$Sounds/AttackSound.play()
@@ -336,3 +336,6 @@ func _on_AnimatedSprite_frame_changed():
 					hitboxes.get_node("BasicAttackHitbox").enable()
 				4:
 					hitboxes.get_node("BasicAttackHitbox").disable()
+
+func choose_target():
+	current_target = search_nearest_target()

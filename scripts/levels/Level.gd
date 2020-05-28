@@ -4,6 +4,8 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
+var can_reset = true
+
 var showing_label = false
 var enemies = []
 var zombies = []
@@ -21,6 +23,8 @@ func _ready():
 
 func _physics_process(delta):
 	if Input.is_action_just_pressed("reset"):
+		get_tree().reload_current_scene()
+	if Input.is_action_just_pressed("main_menu"):
 		get_tree().reload_current_scene()
 	if Input.is_action_just_pressed("state_label_change"):
 		for child in $Characters.get_children():

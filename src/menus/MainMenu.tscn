@@ -1,0 +1,228 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://fonts/Enchanted Land.otf" type="DynamicFontData" id=1]
+[ext_resource path="res://spriteframes/Player.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://fonts/BebasNeue Bold.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://src/menus/buttons/Button.tscn" type="PackedScene" id=4]
+[ext_resource path="res://images/menu bg/bg menu v2.png" type="Texture" id=5]
+[ext_resource path="res://src/menus/buttons/LinkButton.tscn" type="PackedScene" id=6]
+[ext_resource path="res://music/menus/WGJ150_-_V1.1_Loop.ogg" type="AudioStream" id=7]
+[ext_resource path="res://scripts/menus/MainMenu.gd" type="Script" id=8]
+[ext_resource path="res://spriteframes/Enemy.tres" type="SpriteFrames" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+size = 112
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 3 )
+
+[node name="MainMenu" type="CanvasModulate"]
+script = ExtResource( 8 )
+
+[node name="Background" type="TextureRect" parent="."]
+self_modulate = Color( 0.733333, 0.384314, 0.843137, 1 )
+margin_right = 956.0
+margin_bottom = 531.0
+rect_scale = Vector2( 1.05, 1.05 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleLabel" type="Label" parent="."]
+margin_left = 450.506
+margin_top = 18.5502
+margin_right = 857.506
+margin_bottom = 150.55
+custom_fonts/font = SubResource( 1 )
+text = "Necromancer"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleLabel2" type="Label" parent="TitleLabel"]
+margin_left = 213.575
+margin_top = 74.9784
+margin_right = 465.575
+margin_bottom = 206.978
+custom_fonts/font = SubResource( 1 )
+text = "Defense"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CharacterSprites" type="Node2D" parent="."]
+position = Vector2( 43.9521, 38.6779 )
+scale = Vector2( 0.9, 0.9 )
+
+[node name="EnemySprite1" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 560.095, 294.32 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+frame = 2
+playing = true
+
+[node name="EnemySprite2" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 591.829, 359.373 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+playing = true
+
+[node name="EnemySprite3" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 517.255, 402.213 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+frame = 1
+playing = true
+
+[node name="EnemySprite4" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 149.147, 303.054 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+frame = 1
+playing = true
+flip_h = true
+
+[node name="EnemySprite5" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 96.787, 369.695 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+frame = 2
+playing = true
+flip_h = true
+
+[node name="EnemySprite6" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 177.707, 410.948 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+frame = 1
+playing = true
+flip_h = true
+
+[node name="PlayerSprite" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 341.487, 336.579 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 2 )
+animation = "idle"
+frame = 2
+playing = true
+__meta__ = {
+"_editor_description_": "w"
+}
+
+[node name="VBox" type="VBoxContainer" parent="."]
+margin_left = 723.522
+margin_top = 249.754
+margin_right = 886.522
+margin_bottom = 415.754
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartButton" parent="VBox" instance=ExtResource( 4 )]
+margin_right = 163.0
+margin_bottom = 70.0
+custom_styles/focus = SubResource( 5 )
+dest = "res://src/levels/Level0.tscn"
+
+[node name="InstructionsLabel" type="Label" parent="VBox"]
+margin_top = 74.0
+margin_right = 163.0
+margin_bottom = 166.0
+custom_fonts/font = SubResource( 4 )
+text = "WASD/ Arrow Keys to Move
+J to Attack
+K to Roll
+L to Spell Summon
+Spacebar to Attack"
+align = 1
+
+[node name="VersionLabel" type="Label" parent="."]
+margin_left = 784.928
+margin_top = 459.126
+margin_right = 947.928
+margin_bottom = 532.126
+custom_fonts/font = SubResource( 2 )
+text = "v0.1.3
+Made for the Weekly Game Jam
+Week 150
+THeme: \"You're the Enemy\""
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" type="HBoxContainer" parent="."]
+margin_left = 9.94165
+margin_top = 458.519
+margin_right = 659.942
+margin_bottom = 590.519
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LinkButton1" parent="Credits" instance=ExtResource( 6 )]
+margin_right = 184.0
+margin_bottom = 132.0
+text = "Programming by Efigi"
+
+[node name="LinkButton2" parent="Credits" instance=ExtResource( 6 )]
+margin_left = 188.0
+margin_right = 327.0
+margin_bottom = 132.0
+text = "Graphics by Sue"
+
+[node name="LinkButton3" parent="Credits" instance=ExtResource( 6 )]
+margin_left = 331.0
+margin_right = 464.0
+margin_bottom = 132.0
+text = "Music by Mikey"
+
+[node name="LinkButton4" parent="Credits" instance=ExtResource( 6 )]
+margin_left = 468.0
+margin_right = 636.0
+margin_bottom = 132.0
+text = "SFX by Nathan Reed"
+
+[node name="CreditsLabel" type="RichTextLabel" parent="."]
+visible = false
+margin_left = 545.816
+margin_top = 428.965
+margin_right = 959.816
+margin_bottom = 501.965
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/normal_font = SubResource( 3 )
+bbcode_enabled = true
+bbcode_text = "Programming by [url= https://www.efigi.itch.io/]Efigi[/url]
+Graphics by Sue
+Music by [url= https://www.michaelmacapagal.com/]Mikey Macapagal[/url]
+SFX by [url= https://www.dboydchipmusic.com/]Nathan Reed[/url]"
+text = "Programming by Efigi
+Graphics by Sue
+Music by Mikey Macapagal
+SFX by Nathan Reed"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+autoplay = true
+[connection signal="pressed" from="VBox/StartButton" to="." method="_on_StartButton_pressed"]

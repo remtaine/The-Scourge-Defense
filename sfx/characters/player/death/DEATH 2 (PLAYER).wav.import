@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/DEATH 2 (PLAYER).wav-60585a4ae801f02819b4cb8ec307304a.sample"
+
+[deps]
+
+source_file="res://sfx/characters/player/death/DEATH 2 (PLAYER).wav"
+dest_files=[ "res://.import/DEATH 2 (PLAYER).wav-60585a4ae801f02819b4cb8ec307304a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

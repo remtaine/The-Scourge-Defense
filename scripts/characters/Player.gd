@@ -9,7 +9,7 @@ var SPEED
 var MAX_SPEED
 
 const JUMP_DURATION = 0.7
-const MAX_JUMP_HEIGHT = -60
+const MAX_JUMP_HEIGHT = -80
 const JUMP_FALL_DISCREPANCY = 0.05
 
 var prev_jump_height = 100
@@ -38,7 +38,7 @@ onready var runpunchbox = $Body/AnimatedSprite/Hitboxes/RunPunchHitbox
 
 onready var spellbox = hitboxes.get_node("SpellHitbox")
 func _init():
-	max_hp = 10000000
+	max_hp = 10
 	SPEED = {
 		STATES.IDLE: Vector3(0, 0, 0),
 		STATES.RUN: Vector3(300, 150, 100),
@@ -64,7 +64,16 @@ func _init():
 		[STATES.RUN, EVENTS.ATTACK]: STATES.ATTACK_RUN_PUNCH,	
 		[STATES.ATTACK_PUNCH, EVENTS.ATTACK_END]: STATES.IDLE,	
 		[STATES.ATTACK_RUN_PUNCH, EVENTS.ATTACK_END]: STATES.IDLE,	
-		
+
+		[STATES.IDLE, EVENTS.DIE]: STATES.DIE,
+		[STATES.RUN, EVENTS.DIE]: STATES.DIE,	
+		[STATES.ATTACK_PUNCH, EVENTS.DIE]: STATES.DIE,	
+		[STATES.ATTACK_RUN_PUNCH, EVENTS.DIE]: STATES.DIE,	
+		[STATES.CASTING_TURNING_SPELL, EVENTS.DIE]: STATES.DIE,	
+		[STATES.ATTACK_AIR_KICK, EVENTS.DIE]: STATES.DIE,	
+		[STATES.HURT, EVENTS.DIE]: STATES.DIE,
+		[STATES.JUMP, EVENTS.DIE]: STATES.DIE,	
+
 		[STATES.IDLE, EVENTS.JUMP]: STATES.JUMP,
 		[STATES.RUN, EVENTS.JUMP]: STATES.JUMP,	
 		
@@ -94,6 +103,7 @@ func _init():
 func _ready():
 	_state = STATES.IDLE
 	_speed = SPEED[_state]
+	$Health.setup(self)
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")
 
 
@@ -107,10 +117,9 @@ func _physics_process(delta):
 			yield(get_tree().create_timer(frozen_duration), "timeout")
 		sprite._set_playing(true)
 		frozen_duration = 0.0
-		print("STATE AFTER BEING FROZEN IS ", _state)
 
 		match _state: # after being frozen
-			STATES.HURT:
+			STATES.HURT, STATES.DIE:
 				if _state == STATES.DIE:
 					sprite.play("die")
 					$Sounds/DeathSound.play()
@@ -183,8 +192,12 @@ func _physics_process(delta):
 #			flip(_velocity.x > 0)
 		_:
 			flip(_velocity.x < 0)
-
-	move_and_slide(_velocity)
+	
+	match _state:
+		STATES.DIE:
+			pass
+		_:
+			move_and_slide(_velocity)
 #	if collision:
 #		# To make the other kinematicbody2d move as well
 ##		collision.collider.velocity = velocity.length() * -collision.normal
@@ -216,6 +229,8 @@ func enter_state():
 				sprite.rotation = 0
 
 	match _state:
+		STATES.DIE:
+			frozen_duration = BASE_FREEZE_DURATION
 		STATES.IDLE:
 			sprite.play("idle")
 			continue
@@ -318,8 +333,9 @@ func _on_AnimatedSprite_animation_finished():
 			spellbox.enable()
 			tween.interpolate_callback(spellbox, 0.2, "disable")
 			tween.start()
-#			pass
-			
+		"die":
+			#TODO goto lose state
+			pass
 
 func _on_Tween_tween_completed(object, key):
 	if key == ":animate_jump":
