@@ -13,7 +13,8 @@ const MAX_JUMP_HEIGHT = 100
 const MAX_KNOCKBACK_HEIGHT = -10
 
 var ATTACK_DIST = 30
-var CHASE_DIST = 150
+var PYLON_ATTACK_DIST = 120
+var CHASE_DIST = 250
 var prev_jump_height = 100
 var jump_vel = 0
 var jump_pos = 0
@@ -44,7 +45,6 @@ func _init():
 	_transitions = {
 		[STATES.IDLE, EVENTS.RUN]: STATES.RUN,
 		[STATES.CHASE, EVENTS.RUN]: STATES.RUN,
-		[STATES.ATTACK, EVENTS.RUN]: STATES.RUN,
 		[STATES.IDLE, EVENTS.ATTACK]: STATES.ATTACK,
 		[STATES.IDLE, EVENTS.CHASE]: STATES.CHASE,
 		[STATES.RUN, EVENTS.IDLE]: STATES.IDLE,
@@ -82,6 +82,7 @@ func _init():
 
 
 func _ready():
+	change_target(Util.primary_target)
 	health.setup(self)
 	_state = STATES.IDLE
 	_speed = SPEED[_state]
@@ -91,9 +92,9 @@ func _physics_process(delta):
 #	var slide_count = get_slide_count()
 #	_collision_normal = get_slide_collision(slide_count - 1).normal if slide_count > 0 else _collision_normal
 	if current_target == null or !current_target_wr.get_ref():
-		current_target = null
-		current_target_wr = null
-
+		change_target(null)
+	if global_position.distance_to(Util.primary_target.global_position) < CHASE_DIST:
+		change_target(Util.primary_target)
 	if frozen_duration > 0.0:
 #		match _state: # before being frozen
 #			STATES.HURT:
@@ -114,7 +115,8 @@ func _physics_process(delta):
 				elif _state == STATES.KNOCKED_UP:
 					knock_up()
 					sprite.play("hurt")
-				else:
+				elif _state == STATES.HURT:
+					$Timers/TargetResetTimer.start()
 					knock_up() #TODO REMOVE THIS					
 					sprite.play("hurt")
 				if not $Sounds/HurtSound.is_playing():
@@ -127,6 +129,7 @@ func _physics_process(delta):
 						_velocity.x = -KNOCKBACK_LENGTH
 					last_damaged_by.camera_shake.start(0, 0.2, 15.0 , 5)
 			STATES.ATTACK:
+				$Timers/AttackCDTimer.start()
 				print("ENEMY ATTACKED!")
 				$Sounds/AttackSound.play()
 				
@@ -166,7 +169,8 @@ func _physics_process(delta):
 		STATES.IDLE:
 			pass
 		STATES.CHASE, STATES.ATTACK:
-			flip(global_position.x > current_target.global_position.x)
+			if current_target != null and current_target_wr.get_ref():
+				flip(global_position.x > current_target.global_position.x)
 		STATES.HURT, STATES.DIE:
 			flip(_velocity.x > 0)
 		_:
@@ -233,11 +237,19 @@ func get_event():
 	var event = EVENTS.INVALID
 #	if not $Timers/StunnedTimer.is_stopped():
 #		return EVENTS.IDLE
+
+	if not $Timers/AttackCDTimer.is_stopped():
+		return EVENTS.IDLE
+		
 	if current_target == null or not current_target_wr.get_ref():
 		return EVENTS.RUN
-	if global_position.distance_to(current_target.global_position) < ATTACK_DIST:# and is_facing(current_target):
+		
+	var temp_dist = global_position.distance_to(current_target.global_position)
+	if temp_dist < ATTACK_DIST:# and is_facing(current_target):
 		event = EVENTS.ATTACK
-	elif global_position.distance_to(current_target.global_position) < CHASE_DIST:
+	elif current_target == Util.primary_target and temp_dist < PYLON_ATTACK_DIST:
+		event = EVENTS.ATTACK
+	elif temp_dist < CHASE_DIST:
 		event = EVENTS.CHASE
 	else:
 		event = EVENTS.RUN
@@ -327,28 +339,15 @@ func _on_HurtAnimationPlayer_animation_finished(anim_name):
 	
 func _on_AnimatedSprite_frame_changed():
 	match sprite.animation:
+		"run":
+			hitboxes.get_node("BasicAttackHitbox").disable()
 		"attack":
 			match sprite.get_frame():
 				2:
 					hitboxes.get_node("BasicAttackHitbox").enable()
 				4:
 					hitboxes.get_node("BasicAttackHitbox").disable()
-		
 
-func choose_target():
-	print("SEARCHING FOR TARGET")
-	if has_been_attacked:
-		print("I HAEV BEN ATTACKED")
-		return
-	var target_dist
-	for i in range (0, Util.current_level.allies.size()):
-		var possible_target = Util.current_level.allies[i]
-		if current_target == null:
-			current_target = possible_target
-			target_dist = possible_target.global_position.distance_to(global_position)
-		else:
-			var new_target_dist = possible_target.global_position.distance_to(global_position)
-			if new_target_dist < target_dist:
-				current_target = possible_target
-				target_dist = possible_target.global_position.distance_to(global_position)
-	print("current target is now", instance_name)
+func _on_TargetResetTimer_timeout():
+	change_target(Util.primary_target)
+	has_been_attacked = false

@@ -4,6 +4,7 @@ var host
 
 signal just_died
 signal got_hurt
+signal weakened
 
 var health = 0
 var max_health = 0
@@ -16,6 +17,8 @@ func update_health(val):
 		emit_signal("just_died")
 	else:
 		emit_signal("got_hurt")
+		if health <= 0.5 * float(max_health):
+			emit_signal("weakened")
 		print("just hurt")
 
 func setup(h):

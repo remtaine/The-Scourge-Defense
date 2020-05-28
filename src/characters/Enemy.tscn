@@ -69,7 +69,6 @@ rotation = -3.14159
 scale = Vector2( 2, -2 )
 frames = ExtResource( 1 )
 animation = "idle"
-playing = true
 
 [node name="Hitboxes" type="Node2D" parent="Body/AnimatedSprite"]
 
@@ -112,6 +111,14 @@ one_shot = true
 [node name="StunnedTimer" type="Timer" parent="Timers"]
 wait_time = 0.3
 
+[node name="TargetResetTimer" type="Timer" parent="Timers"]
+wait_time = 5.0
+one_shot = true
+
+[node name="AttackCDTimer" type="Timer" parent="Timers"]
+wait_time = 0.5
+one_shot = true
+
 [node name="Sounds" type="Node2D" parent="."]
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="Sounds"]
@@ -136,3 +143,4 @@ visible = false
 [connection signal="frame_changed" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
 [connection signal="animation_finished" from="HurtAnimationPlayer" to="." method="_on_HurtAnimationPlayer_animation_finished"]
 [connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
+[connection signal="timeout" from="Timers/TargetResetTimer" to="." method="_on_TargetResetTimer_timeout"]

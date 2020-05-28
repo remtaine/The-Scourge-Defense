@@ -22,8 +22,11 @@ func _on_AnimatedSprite_frame_changed():
 #					pass
 					spawn_bullet()
 
-
+func _on_TargetResetTimer_timeout():
+	change_target(Util.primary_target)
+	has_been_attacked = false
+	
 func spawn_bullet():
 	var bullet = stone_resource.instance()
-	bullet.setup_values(global_position, (stone_spawner.global_position - stone_pivot.global_position).normalized())
+	bullet.setup_values(global_position, (stone_spawner.global_position - stone_pivot.global_position).normalized(), base_damage)
 	get_parent().get_parent().call_deferred("add_child", bullet)

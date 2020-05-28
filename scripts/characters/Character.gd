@@ -137,12 +137,14 @@ func _on_take_damage(damager, dmg = base_damage):
 	last_damaged_by_wr = weakref(damager)
 	if not has_been_attacked:
 		has_been_attacked = true
-		current_target = last_damaged_by
-		current_target_wr = weakref(last_damaged_by)
+		change_target(last_damaged_by)
 #	print("LAST DAMAGED BY ", damager.instance_name)
 	 #TODO add damage
 	health.update_health(dmg)
-	
+
+func change_target(target):
+	current_target = target
+	current_target_wr = weakref(target)
 	
 func _on_just_died():
 	print(instance_name, "IS DEAD")

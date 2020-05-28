@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://fonts/BebasNeue Bold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://src/menus/ConditionMenu.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 84
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 64
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 64
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "appear"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="WinMenu" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="TitleLabel" type="Label" parent="."]
+margin_left = 201.857
+margin_top = 89.5173
+margin_right = 515.857
+margin_bottom = 201.518
+rect_scale = Vector2( 1.82703, 1.80322 )
+custom_fonts/font = SubResource( 1 )
+text = "You Won!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RestartLabel" type="Label" parent="."]
+margin_left = 286.7
+margin_top = 311.249
+margin_right = 684.7
+margin_bottom = 375.249
+custom_fonts/font = SubResource( 2 )
+text = "Press R to Restart"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MainMenuLabel" type="Label" parent="RestartLabel"]
+margin_left = -41.1084
+margin_top = 73.4077
+margin_right = 439.892
+margin_bottom = 137.408
+custom_fonts/font = SubResource( 3 )
+text = "Press M for Main Menu"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/appear = SubResource( 4 )

@@ -51,7 +51,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Thuggish Necromancer"
-run/main_scene="res://src/levels/Level0.tscn"
+run/main_scene="res://src/menus/MainMenu.tscn"
 config/icon="res://images/icons/icon.png"
 
 [autoload]
@@ -159,6 +159,7 @@ main_menu={
 2d_physics/layer_3="Enemy"
 2d_physics/layer_4="Hitbox"
 2d_physics/layer_5="Hurtbox"
+2d_physics/layer_9="Allies"
 
 [rendering]
 

@@ -16,7 +16,7 @@ extents = Vector2( 10, 122.599 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 8 ) ],
 "loop": true,
@@ -24,8 +24,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Animation" id=3]
-resource_name = "hurt"
+[sub_resource type="Animation" id=4]
 length = 0.2
 step = 0.025
 tracks/0/type = "value"
@@ -45,6 +44,7 @@ tracks/0/keys = {
 "allies",
 ]]
 position = Vector2( -11.6881, 62.3364 )
+collision_layer = 257
 collision_mask = 6
 script = ExtResource( 3 )
 
@@ -83,7 +83,7 @@ shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Body"]
 scale = Vector2( 0.2, 0.2 )
-frames = SubResource( 4 )
+frames = SubResource( 3 )
 
 [node name="Hitboxes" type="Position2D" parent="Body/AnimatedSprite"]
 script = ExtResource( 7 )
@@ -91,11 +91,11 @@ script = ExtResource( 7 )
 [node name="Hurtboxes" type="Position2D" parent="Body/AnimatedSprite"]
 
 [node name="Hurtbox" parent="Body/AnimatedSprite/Hurtboxes" instance=ExtResource( 5 )]
-position = Vector2( 0, 3.52101 )
-scale = Vector2( 0.472, 1.416 )
+position = Vector2( 19.0001, 146.021 )
+scale = Vector2( 42.872, 105.416 )
 
 [node name="HurtAnimationPlayer" type="AnimationPlayer" parent="."]
-anims/hurt = SubResource( 3 )
+anims/hurt = SubResource( 4 )
 
 [node name="StateLabel" parent="." instance=ExtResource( 4 )]
 margin_top = 11.8584

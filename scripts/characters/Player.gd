@@ -9,7 +9,7 @@ var SPEED
 var MAX_SPEED
 
 const JUMP_DURATION = 0.7
-const MAX_JUMP_HEIGHT = -60
+const MAX_JUMP_HEIGHT = -100
 const JUMP_FALL_DISCREPANCY = 0.05
 
 var prev_jump_height = 100
@@ -38,12 +38,12 @@ onready var runpunchbox = $Body/AnimatedSprite/Hitboxes/RunPunchHitbox
 
 onready var spellbox = hitboxes.get_node("SpellHitbox")
 func _init():
-	max_hp = 10
+	max_hp = 100
 	SPEED = {
 		STATES.IDLE: Vector3(0, 0, 0),
 		STATES.RUN: Vector3(300, 150, 100),
 		STATES.JUMP: Vector3(200, 100, 100),
-		STATES.ROLL: Vector3(300, 150, 100),
+		STATES.ROLL: Vector3(500, 250, 100),
 	}
 
 	MAX_SPEED = {
@@ -101,7 +101,6 @@ func _init():
 	Util.current_player = self
 
 func _ready():
-	max_hp = 20
 	base_damage = 1
 	_state = STATES.IDLE
 	_speed = SPEED[_state]
@@ -193,7 +192,7 @@ func _physics_process(delta):
 #		STATES.HURT, STATES.DIE:
 #			flip(_velocity.x > 0)
 		_:
-			flip(_velocity.x < 0)
+			flip(_velocity.x <= 0)
 	
 	match _state:
 		STATES.DIE:
@@ -326,7 +325,10 @@ func decode_raw_input(input):
 
 func _on_AnimatedSprite_animation_finished():
 	match sprite.animation:
-		"attack_punch", "attack_run_punch":
+		"attack_punch", "attack_run_punch", "attack_air_kick":
+			for child in $Body/AnimatedSprite/Hitboxes.get_children():
+				if child.has_method("disable"):
+					child.disable()
 			change_state(EVENTS.ATTACK_END)
 		"roll":
 			sprite.position.y = 0		
@@ -336,8 +338,7 @@ func _on_AnimatedSprite_animation_finished():
 			tween.interpolate_callback(spellbox, 0.2, "disable")
 			tween.start()
 		"die":
-			#TODO goto lose state
-			pass
+			Util.current_level.show_lose_screen()
 
 func _on_Tween_tween_completed(object, key):
 	if key == ":animate_jump":

@@ -97,7 +97,7 @@ font_data = ExtResource( 6 )
 "allies",
 "zombies",
 ]]
-collision_layer = 4
+collision_layer = 256
 script = ExtResource( 2 )
 
 [node name="ShadowSprite" type="Sprite" parent="."]
@@ -124,7 +124,6 @@ rotation = -3.14159
 scale = Vector2( 2, -2 )
 frames = SubResource( 6 )
 animation = "attack"
-frame = 5
 playing = true
 
 [node name="Hitboxes" type="Node2D" parent="Body/AnimatedSprite"]

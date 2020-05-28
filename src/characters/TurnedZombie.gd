@@ -27,10 +27,10 @@ func _init():
 	max_hp = 3
 	SPEED = {
 		STATES.IDLE: Vector3(0, 0, 0),
-		STATES.RUN: Vector3(60, 30, 100),
+		STATES.RUN: Vector3(30, 30, 100),
 		STATES.JUMP: Vector3(200, 100, 100),
 		STATES.ROLL: Vector3(500, 250, 100),
-		STATES.CHASE: Vector3(120, 60, 100),
+		STATES.CHASE: Vector3(150, 60, 100),
 	}
 	
 	MAX_SPEED = {
@@ -88,6 +88,8 @@ func _ready():
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")
 
 func _physics_process(delta):
+	if global_position.x > 1440:
+		queue_free()
 #	var slide_count = get_slide_count()
 #	_collision_normal = get_slide_collision(slide_count - 1).normal if slide_count > 0 else _collision_normal
 	if frozen_duration > 0.0:
@@ -167,7 +169,7 @@ func _physics_process(delta):
 		STATES.IDLE:
 			pass
 		STATES.CHASE, STATES.ATTACK:
-			flip(global_position.x > current_target.global_position.x)
+			flip(current_target.global_position.x < global_position.x)
 		STATES.HURT, STATES.DIE:
 			flip(_velocity.x > 0)
 		_:

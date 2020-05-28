@@ -12,7 +12,8 @@ var zombies = []
 var allies = []
 # Called when the node enters the scene tree for the first time.
 func _init():
-	Util.current_level = self	
+	Util.current_level = self
+	Util.can_change_menu = false
 
 func _ready():
 	$Characters/Player.setup(self)
@@ -26,10 +27,10 @@ func _ready():
 			enemies.append(child)
 
 func _physics_process(delta):
-	if Input.is_action_just_pressed("reset"):
+	if Input.is_action_just_pressed("reset"):# and Util.can_change_menu:
 		get_tree().reload_current_scene()
-	if Input.is_action_just_pressed("main_menu"):
-		get_tree().reload_current_scene()
+	if Input.is_action_just_pressed("main_menu"):# and Util.can_change_menu:
+		SceneChanger.change_scene("res://src/menus/MainMenu.tscn")
 	if Input.is_action_just_pressed("state_label_change"):
 		for child in $Characters.get_children():
 #			showing_label = !howing_label
@@ -42,4 +43,10 @@ func _on_combo_extended(val):
 
 func _on_zombie_spawned(zombie):
 	zombies.append(zombie)
-	print("GOT A NEW ZOMBIE~")
+
+func show_lose_screen():
+	$LevelUI/LoseMenu.appear()
+	
+func show_win_screen():
+	$LevelUI/WinMenu.appear()
+	

@@ -160,7 +160,7 @@ margin_top = 446.172
 margin_right = 944.227
 margin_bottom = 519.172
 custom_fonts/font = SubResource( 4 )
-text = "v0.1.3
+text = "v0.1.6
 Made for the Weekly Game Jam
 Week 150
 THeme: \"You're the Enemy\""
