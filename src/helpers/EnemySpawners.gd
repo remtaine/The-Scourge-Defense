@@ -1,6 +1,6 @@
 extends Node2D
 
-const MAX_SPAWN_PER_STAGE = 3
+const MAX_SPAWN_PER_STAGE = 1
 var current_wave = 0
 var enemy_spawn_list = []
 var current_enemies = []
@@ -27,7 +27,7 @@ func _ready():
 			temp.append(point)
 		spawn_points.append(temp)
 	
-	enemy_spawn_list.append([1,0,0]) #Wave 1
+	enemy_spawn_list.append([10,10,10]) #Wave 1
 	enemy_spawn_list.append([5,0,0]) #Wave 2
 	enemy_spawn_list.append([5,0,0]) #Wave 3
 	enemy_spawn_list.append([5,0,0]) #Wave 4
@@ -42,13 +42,14 @@ func _ready():
 
 func _physics_process(delta):
 	if current_enemies.size() == 0:
-		if times_spawned > MAX_SPAWN_PER_STAGE:
+		if times_spawned >= MAX_SPAWN_PER_STAGE:
 			print("NEXT WAVE")		
 			go_to_next_wave()
 		else:
 			print("NEXT STAGE")		
 			spawn_horde(enemy_spawn_list[current_wave - 1])
-
+	else:
+		print(current_enemies.size(), " ENEMIES LEFT")
 func go_to_next_wave():
 	current_enemies = []
 	current_wave += 1
@@ -85,15 +86,18 @@ func summon(resource, pos):
 	var entity = resource.instance()
 	entity.global_position = pos
 	current_enemies.append(entity)
+	entity.connect("dead", self, "_on_enemy_dead")
 	get_parent().get_node("Characters").call_deferred("add_child", entity)
 
+func _on_enemy_dead(enemy):
+	current_enemies.erase(enemy)
 func spawn_horde(list):
 	spawn_enemies(list)
 	times_spawned += 1
 	stage_timer.start()
 	
 func _on_StageTimer_timeout():
-	if times_spawned <= MAX_SPAWN_PER_STAGE:
+	if times_spawned < MAX_SPAWN_PER_STAGE:
 		print("TIMED OUT")
 		spawn_horde(enemy_spawn_list[current_wave - 1])
 	else:

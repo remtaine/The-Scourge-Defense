@@ -125,13 +125,11 @@ func _physics_process(delta):
 						_velocity.x = -KNOCKBACK_LENGTH
 					last_damaged_by.camera_shake.start(0, 0.2, 15.0 , 5)
 			STATES.ATTACK:
-				print("ENEMY ATTACKED!")
 				$Sounds/AttackSound.play()
 	
 	if current_target == null or !current_target_wr.get_ref():
 		current_target = null
 		current_target_wr = null
-		print("CLEARED TARGET")
 		
 	var input = get_raw_input(_state)
 	var event = decode_raw_input(input)
@@ -277,7 +275,6 @@ func _on_AnimatedSprite_animation_finished():
 			queue_free()
 
 func _on_Tween_tween_completed(object, key):
-	print("KEY is ", key)
 	match key:
 		":animate_jump":
 			prev_jump_height = 100
@@ -334,7 +331,6 @@ func knock_down():
 	
 func _on_HurtAnimationPlayer_animation_finished(anim_name):
 	if anim_name == "hurt" and _state != STATES.KNOCKED_UP:
-		print("HURT DONE")
 		change_state(EVENTS.HURT_END)
 	
 func _on_AnimatedSprite_frame_changed():
@@ -348,9 +344,7 @@ func _on_AnimatedSprite_frame_changed():
 		
 
 func choose_target():
-	print("SEARCHING FOR TARGET")
 	if has_been_attacked:
-		print("I HAEV BEN ATTACKED")
 		return
 	var target_dist
 	for i in range (0, Util.current_level.allies.size()):
@@ -367,7 +361,6 @@ func choose_target():
 
 func _on_AttackRange_body_entered(body):
 	if body.is_in_group("enemies") and current_target == null:
-		print("HIS NAME IS ", body.instance_name)	
 		has_been_attacked = true
 		current_target = body
 		current_target_wr = weakref(body)

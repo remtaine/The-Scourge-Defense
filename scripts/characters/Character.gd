@@ -152,12 +152,12 @@ func _on_got_hurt():
 	if instance_name == "player":
 		pass
 	else:
+		pass
 	stunned_timer.start()
 	change_state(EVENTS.HURT)
 	if frozen_duration == 0.0:
 		frozen_duration = 1.0
 		frozen_timer.start()
-#	print(instance_name, " has been hit with HP left of ", hp)	
 #	if hp <= 0:
 ##		
 #	else:

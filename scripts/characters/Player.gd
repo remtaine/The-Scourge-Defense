@@ -186,7 +186,7 @@ func _physics_process(delta):
 #			_velocity.y = clamp(_velocity.y, -MAX_SPEED[_state].y, MAX_SPEED[_state].y)
 			
 	match _state: #match for flipping
-		STATES.ATTACK_PUNCH, STATES.IDLE, STATES.HURT, STATES.DIE, STATES.CASTING_TURNING_SPELL:
+		STATES.ATTACK_RUN_PUNCH, STATES.ATTACK_PUNCH, STATES.IDLE, STATES.HURT, STATES.DIE, STATES.CASTING_TURNING_SPELL:
 			pass
 #		STATES.HURT, STATES.DIE:
 #			flip(_velocity.x > 0)

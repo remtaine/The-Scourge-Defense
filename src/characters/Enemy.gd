@@ -3,7 +3,7 @@ extends Character
 class_name Enemy
 
 signal speed_changed(speed, max_speed)
-
+signal dead
 
 var SPEED
 var MAX_SPEED
@@ -130,7 +130,6 @@ func _physics_process(delta):
 					last_damaged_by.camera_shake.start(0, 0.2, 15.0 , 5)
 			STATES.ATTACK:
 				$Timers/AttackCDTimer.start()
-				print("ENEMY ATTACKED!")
 				$Sounds/AttackSound.play()
 				
 	var event = get_event()
@@ -267,6 +266,7 @@ func _on_AnimatedSprite_animation_finished():
 			sprite.position.y = 0		
 			change_state(EVENTS.ROLL_END)
 		"die":
+			emit_signal("dead", self)
 			queue_free()
 
 func _on_Tween_tween_completed(object, key):
@@ -278,12 +278,6 @@ func _on_Tween_tween_completed(object, key):
 	
 	if key == ":animate_knock_up":
 		change_state(EVENTS.KNOCKED_UP_END)
-#		knock_down()
-#			else:
-#				print("KNOCK DOWN DONE")
-#		":animate_knockback":
-#			print("KNOCKBACK BRO")
-#			change_state(EVENTS.HURT_END)
 
 func search_nearest_target():
 	pass
@@ -334,7 +328,6 @@ func _on_has_turned():
 
 func _on_HurtAnimationPlayer_animation_finished(anim_name):
 	if anim_name == "hurt" and _state != STATES.KNOCKED_UP:
-		print("HURT DONE")
 		change_state(EVENTS.HURT_END)
 	
 func _on_AnimatedSprite_frame_changed():

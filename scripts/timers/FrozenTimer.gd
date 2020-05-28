@@ -12,4 +12,3 @@ func setup(h):
 
 func _on_FrozenTimer_timeout():
 	emit_signal("done_frozen")
-	print("DONE BEING FROZEN!")

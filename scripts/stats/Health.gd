@@ -19,7 +19,6 @@ func update_health(val):
 		emit_signal("got_hurt")
 		if health <= 0.5 * float(max_health):
 			emit_signal("weakened")
-		print("just hurt")
 
 func setup(h):
 	host = h

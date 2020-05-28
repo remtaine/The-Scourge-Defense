@@ -33,13 +33,11 @@ func get_combo():
 
 func reset_combo():
 	set_combo(0)
-	print("COMBO RESET")
 	
 func _on_ComboTimer_timeout():
 	tween.interpolate_property(self,"modulate",modulate, Color(cm.r, cm.g, cm.b, 0.0), FADE_DURATION, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	tween.start()
 
 func _on_Tween_tween_completed(object, key):
-	print("TWEEN DONE FOR KEY ", key)
 	if key == ":modulate":
 		reset_combo()

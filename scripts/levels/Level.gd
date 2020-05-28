@@ -39,7 +39,6 @@ func _physics_process(delta):
 
 func _on_combo_extended(val):
 	$LevelUI/ComboText/ComboLabel.set_combo(val)
-	print("COMBO ACTIVATED")
 
 func _on_zombie_spawned(zombie):
 	zombies.append(zombie)
