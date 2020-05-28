@@ -124,6 +124,7 @@ rotation = -3.14159
 scale = Vector2( 2, -2 )
 frames = SubResource( 6 )
 animation = "attack"
+frame = 4
 playing = true
 
 [node name="Hitboxes" type="Node2D" parent="Body/AnimatedSprite"]
@@ -193,7 +194,7 @@ visible = false
 [node name="Range" type="Node2D" parent="."]
 
 [node name="AttackRange" type="Area2D" parent="Range"]
-scale = Vector2( 2.6, 2.6 )
+scale = Vector2( 1.96, 5.08 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range/AttackRange"]
 scale = Vector2( 6.81319, 5.69538 )

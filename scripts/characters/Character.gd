@@ -126,7 +126,6 @@ func change_state(event):
 	emit_signal("state_changed", _state)
 
 func _on_hit_enemy(multiplier = 1):
-	print(instance_name, " HAS HIT ENEMY")
 	if is_in_group("player"):
 		emit_signal("combo_extended", 1)
 	if frozen_duration == 0.0:
@@ -138,7 +137,6 @@ func _on_take_damage(damager, dmg = base_damage):
 	if not has_been_attacked:
 		has_been_attacked = true
 		change_target(last_damaged_by)
-#	print("LAST DAMAGED BY ", damager.instance_name)
 	 #TODO add damage
 	health.update_health(dmg)
 
@@ -147,15 +145,13 @@ func change_target(target):
 	current_target_wr = weakref(target)
 	
 func _on_just_died():
-	print(instance_name, "IS DEAD")
 	is_alive = false
 	change_state(EVENTS.DIE)
 
 func _on_got_hurt():
 	if instance_name == "player":
-		print ("player got hurt")
+		pass
 	else:
-		print("jk lol")
 	stunned_timer.start()
 	change_state(EVENTS.HURT)
 	if frozen_duration == 0.0:

@@ -130,7 +130,6 @@ func _physics_process(delta):
 					$Sounds/HurtSound.play()
 				$HurtAnimationPlayer.play("hurt")
 				if last_damaged_by.instance_name == "enemy":
-#					print("hit by enemy!")
 					#TODO change to is_facing
 					if not last_damaged_by.is_flipped:#ie player is at left
 						_velocity.x = KNOCKBACK_LENGTH
@@ -264,7 +263,6 @@ func enter_state():
 			spellbox.show_sprite()
 			$Sounds/SpellSound.play()
 			sprite.play("cast_turning_spell")
-#			print("CASTING TURNING SPELL")
 		STATES.HURT:
 			if frozen_duration == 0.0:
 				frozen_duration = BASE_FREEZE_DURATION
@@ -409,7 +407,6 @@ func play_sound(sound):
 			$Sounds/MovementSound.stream = sound
 			$Sounds/MovementSound.play()
 		fist_sound1, fist_sound2, fist_sound3, fist_sound_combo:
-#			print(sound)
 			$Sounds/AttackSound.stream = sound
 			$Sounds/AttackSound.play()
 			

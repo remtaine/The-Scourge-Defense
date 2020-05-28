@@ -117,7 +117,7 @@ current = true
 zoom = Vector2( 0.95, 0.95 )
 limit_left = 0
 limit_top = 0
-limit_right = 1440
+limit_right = 2160
 limit_bottom = 540
 
 [node name="ScreenShakeGenerator" parent="Camera2D" instance=ExtResource( 46 )]

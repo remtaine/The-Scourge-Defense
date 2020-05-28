@@ -1,15 +1,100 @@
 extends Node2D
 
+const MAX_SPAWN_PER_STAGE = 3
 var current_wave = 0
 var enemy_spawn_list = []
 var current_enemies = []
 onready var wave_label = $CanvasLayer/WaveLabel
 onready var wave_anim = $CanvasLayer/WaveLabel/AnimationPlayer
+onready var stage_timer = $StageTimer
+onready var melee_enemy = preload("res://src/characters/MeleeEnemy.tscn")
+onready var ranged_enemy = preload("res://src/characters/RangedEnemy.tscn")
+onready var rush_enemy = preload("res://src/characters/MeleeEnemy.tscn")
+
+var times_spawned = 0
+var last_level = 10
+
+var spawn_rows = []
+var spawn_points = []
 
 func _ready():
-	pass
+	for row in get_children():
+		if row.get_class() == "Node2D":
+			spawn_rows.append(row)
+	for i in range (0, spawn_rows.size()):
+		var temp = []
+		for point in spawn_rows[i].get_children():
+			temp.append(point)
+		spawn_points.append(temp)
+	
+	enemy_spawn_list.append([1,0,0]) #Wave 1
+	enemy_spawn_list.append([5,0,0]) #Wave 2
+	enemy_spawn_list.append([5,0,0]) #Wave 3
+	enemy_spawn_list.append([5,0,0]) #Wave 4
+	enemy_spawn_list.append([5,0,0]) #Wave 5
+	enemy_spawn_list.append([5,0,0]) #Wave 6
+	enemy_spawn_list.append([5,0,0]) #Wave 7
+	enemy_spawn_list.append([5,0,0]) #Wave 8
+	enemy_spawn_list.append([5,0,0]) #Wave 9
+	enemy_spawn_list.append([5,0,0]) #Wave 10
+
+	go_to_next_wave()
+
+func _physics_process(delta):
+	if current_enemies.size() == 0:
+		if times_spawned > MAX_SPAWN_PER_STAGE:
+			print("NEXT WAVE")		
+			go_to_next_wave()
+		else:
+			print("NEXT STAGE")		
+			spawn_horde(enemy_spawn_list[current_wave - 1])
 
 func go_to_next_wave():
 	current_enemies = []
 	current_wave += 1
-#	for i in range:
+	if current_wave > last_level:
+		Util.current_level.show_win_screen()
+	else:
+		wave_label.text = "Wave " + String(current_wave)
+		var temp = 0
+		for i in range (0,3):
+			temp += enemy_spawn_list[current_wave - 1][i]
+		stage_timer.wait_time = temp * 2
+		spawn_horde(enemy_spawn_list[current_wave - 1])
+
+func spawn_enemies(list):
+	for i in range (0, list.size()):
+		for j in range (0, list[i]):
+			#choose random row
+			randomize()
+			var temp_row = randi() % spawn_rows.size()
+			#choose random point
+			randomize()
+			var temp_point = randi() % spawn_points[temp_row].size()
+			var temp_pos = spawn_points[temp_row][temp_point].global_position
+			#spawn enemy at that point
+			match i:
+				0:
+					summon(melee_enemy, temp_pos)
+				1:
+					summon(ranged_enemy, temp_pos)
+				2:
+					summon(rush_enemy, temp_pos)
+
+func summon(resource, pos):
+	var entity = resource.instance()
+	entity.global_position = pos
+	current_enemies.append(entity)
+	get_parent().get_node("Characters").call_deferred("add_child", entity)
+
+func spawn_horde(list):
+	spawn_enemies(list)
+	times_spawned += 1
+	stage_timer.start()
+	
+func _on_StageTimer_timeout():
+	if times_spawned <= MAX_SPAWN_PER_STAGE:
+		print("TIMED OUT")
+		spawn_horde(enemy_spawn_list[current_wave - 1])
+	else:
+		pass
