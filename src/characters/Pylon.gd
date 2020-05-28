@@ -1,7 +1,7 @@
 extends Character
 
 func _init():
-	max_hp = 50
+	max_hp = 100
 	Util.primary_target = self
 	
 func _ready():

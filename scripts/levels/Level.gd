@@ -30,7 +30,8 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("reset"):# and Util.can_change_menu:
 		get_tree().reload_current_scene()
 	if Input.is_action_just_pressed("main_menu"):# and Util.can_change_menu:
-		SceneChanger.change_scene("res://src/menus/MainMenu.tscn")
+		get_tree().change_scene("res://src/menus/MainMenu.tscn")
+#		SceneChanger.change_scene("res://src/menus/MainMenu.tscn")
 	if Input.is_action_just_pressed("state_label_change"):
 		for child in $Characters.get_children():
 #			showing_label = !howing_label

@@ -29,7 +29,7 @@ func _ready():
 			temp.append(point)
 		spawn_points.append(temp)
 	
-	enemy_spawn_list.append([12,0,5]) #Wave 1
+	enemy_spawn_list.append([12,0,0]) #Wave 1
 	enemy_spawn_list.append([17,3,0]) #Wave 2
 	enemy_spawn_list.append([20,8,0]) #Wave 3
 	enemy_spawn_list.append([23,10,3]) #Wave 4

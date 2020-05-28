@@ -12,6 +12,7 @@ func _ready():
 	sprites.erase(player_sprite)
 	
 func _on_StartButton_pressed():
+	print("PRESSEDD")
 	$SpellSound1.play()
 	player_sprite.play("cast_turning_spell")
 	spirit_circle.visible = true
@@ -25,4 +26,5 @@ func _on_PlayerSprite_animation_finished():
 			sprites[i].scale.x *= -1
 		player_sprite.play("idle")
 		yield(get_tree().create_timer(1.0), "timeout")
-		SceneChanger.change_scene(start_button.dest)	
+		get_tree().change_scene(start_button.dest)
+#		start_button.get_node("SceneChanger").change_scene(start_button.dest)

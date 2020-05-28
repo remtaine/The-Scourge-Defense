@@ -62,19 +62,39 @@ animations = [ {
 "name": "idle",
 "speed": 6.0
 }, {
+"frames": [ ExtResource( 36 ), ExtResource( 33 ), ExtResource( 37 ), ExtResource( 35 ), ExtResource( 40 ), ExtResource( 46 ) ],
+"loop": true,
+"name": "run",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ) ],
+"loop": false,
+"name": "hurt",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 52 ), ExtResource( 53 ), ExtResource( 51 ), ExtResource( 50 ), null ],
+"loop": false,
+"name": "die",
+"speed": 6.0
+}, {
 "frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 5 ) ],
 "loop": false,
 "name": "cast_turning_spell",
 "speed": 8.0
 }, {
+"frames": [ ExtResource( 27 ), ExtResource( 23 ), ExtResource( 24 ) ],
+"loop": false,
+"name": "attack_air_kick",
+"speed": 12.0
+}, {
+"frames": [ ExtResource( 32 ) ],
+"loop": false,
+"name": "fall",
+"speed": 20.0
+}, {
 "frames": [ ExtResource( 18 ), ExtResource( 20 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 41 ), ExtResource( 42 ) ],
 "loop": false,
 "name": "attack_run_punch",
-"speed": 12.0
-}, {
-"frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 28 ) ],
-"loop": false,
-"name": "jump",
 "speed": 12.0
 }, {
 "frames": [ ExtResource( 43 ), ExtResource( 44 ), ExtResource( 45 ), ExtResource( 54 ) ],
@@ -82,33 +102,13 @@ animations = [ {
 "name": "roll",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 36 ), ExtResource( 33 ), ExtResource( 37 ), ExtResource( 35 ), ExtResource( 40 ), ExtResource( 46 ) ],
-"loop": true,
-"name": "run",
-"speed": 8.0
-}, {
-"frames": [ ExtResource( 32 ) ],
+"frames": [ ExtResource( 25 ), ExtResource( 26 ), ExtResource( 28 ) ],
 "loop": false,
-"name": "fall",
-"speed": 20.0
+"name": "jump",
+"speed": 12.0
 }, {
 "frames": [ ExtResource( 10 ), ExtResource( 4 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 17 ), ExtResource( 22 ), ExtResource( 15 ), ExtResource( 19 ), ExtResource( 21 ), ExtResource( 12 ) ],
 "loop": false,
 "name": "attack_punch",
 "speed": 12.0
-}, {
-"frames": [ ExtResource( 27 ), ExtResource( 23 ), ExtResource( 24 ) ],
-"loop": false,
-"name": "attack_air_kick",
-"speed": 12.0
-}, {
-"frames": [ ExtResource( 9 ), ExtResource( 47 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 52 ), ExtResource( 53 ), ExtResource( 51 ), ExtResource( 50 ), null ],
-"loop": false,
-"name": "die",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ) ],
-"loop": false,
-"name": "hurt",
-"speed": 10.0
 } ]

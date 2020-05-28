@@ -1,16 +1,28 @@
-extends ColorRect
+extends CanvasLayer
 
-var dest = null
+signal scene_changed
 
-func _ready():
+onready var animation_player = $AnimationPlayer
+onready var black = $Control/ColorRect
+onready var delay_timer = $DelayTimer
+
+func change_scene(path, delay = 0.2):
+	print("CHANGING SCENE")
+	delay_timer.start(delay)
+	yield(delay_timer, "timeout")
+	
+	animation_player.play("fade")
+	yield(animation_player, "animation_finished")
+
+	get_tree().change_scene(path)
+
+	animation_player.play_backwards("fade")
+	yield(animation_player, "animation_finished")
+
+	emit_signal("scene_changed")
+
+func open_curtains():
 	pass
 
-func change_scene(d):
-	dest = d
-	get_tree().change_scene(dest)
-#	$AnimationPlayer.play("close")
-
-func _on_AnimationPlayer_animation_finished(anim_name):
-	match anim_name:
-		"close":
-				get_tree().change_scene(dest)
+func close_curtains():
+	pass
