@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://fonts/Enchanted Land.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://spriteframes/Player.tres" type="SpriteFrames" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://music/menus/WGJ150_-_V1.1_Loop.ogg" type="AudioStream" id=7]
 [ext_resource path="res://scripts/menus/MainMenu.gd" type="Script" id=8]
 [ext_resource path="res://spriteframes/Enemy.tres" type="SpriteFrames" id=9]
+[ext_resource path="res://images/effects/Circle UI.png" type="Texture" id=10]
+[ext_resource path="res://sfx/characters/enemies/captured/UNDEAD TRANSFORMATION COMPLETE 2.wav" type="AudioStream" id=11]
+[ext_resource path="res://sfx/characters/enemies/captured/ENEMY CAPTURE 1.wav" type="AudioStream" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 size = 128
@@ -23,6 +26,14 @@ font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="StyleBoxEmpty" id=7]
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=9]
 
 [sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 3 )
@@ -66,56 +77,6 @@ __meta__ = {
 position = Vector2( 43.9521, 38.6779 )
 scale = Vector2( 0.9, 0.9 )
 
-[node name="EnemySprite1" type="AnimatedSprite" parent="CharacterSprites"]
-position = Vector2( 560.095, 294.32 )
-scale = Vector2( 5, 5 )
-frames = ExtResource( 9 )
-animation = "idle"
-frame = 2
-playing = true
-
-[node name="EnemySprite2" type="AnimatedSprite" parent="CharacterSprites"]
-position = Vector2( 591.829, 359.373 )
-scale = Vector2( 5, 5 )
-frames = ExtResource( 9 )
-animation = "idle"
-playing = true
-
-[node name="EnemySprite3" type="AnimatedSprite" parent="CharacterSprites"]
-position = Vector2( 517.255, 402.213 )
-scale = Vector2( 5, 5 )
-frames = ExtResource( 9 )
-animation = "idle"
-frame = 1
-playing = true
-
-[node name="EnemySprite4" type="AnimatedSprite" parent="CharacterSprites"]
-position = Vector2( 149.147, 303.054 )
-scale = Vector2( 5, 5 )
-frames = ExtResource( 9 )
-animation = "idle"
-frame = 1
-playing = true
-flip_h = true
-
-[node name="EnemySprite5" type="AnimatedSprite" parent="CharacterSprites"]
-position = Vector2( 96.787, 369.695 )
-scale = Vector2( 5, 5 )
-frames = ExtResource( 9 )
-animation = "idle"
-frame = 2
-playing = true
-flip_h = true
-
-[node name="EnemySprite6" type="AnimatedSprite" parent="CharacterSprites"]
-position = Vector2( 177.707, 410.948 )
-scale = Vector2( 5, 5 )
-frames = ExtResource( 9 )
-animation = "idle"
-frame = 1
-playing = true
-flip_h = true
-
 [node name="PlayerSprite" type="AnimatedSprite" parent="CharacterSprites"]
 position = Vector2( 341.487, 336.579 )
 scale = Vector2( 5, 5 )
@@ -126,6 +87,52 @@ playing = true
 __meta__ = {
 "_editor_description_": "w"
 }
+
+[node name="SpiritCircle" type="Sprite" parent="CharacterSprites/PlayerSprite"]
+visible = false
+show_behind_parent = true
+position = Vector2( 0.455658, 17.3157 )
+scale = Vector2( 0.295852, 0.0722264 )
+texture = ExtResource( 10 )
+
+[node name="EnemySprite1" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 560.095, 294.32 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+
+[node name="EnemySprite2" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 591.829, 359.373 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+
+[node name="EnemySprite3" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 517.255, 402.213 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+
+[node name="EnemySprite4" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 149.147, 303.054 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+flip_h = true
+
+[node name="EnemySprite5" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 96.787, 369.695 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+flip_h = true
+
+[node name="EnemySprite6" type="AnimatedSprite" parent="CharacterSprites"]
+position = Vector2( 177.707, 410.948 )
+scale = Vector2( 5, 5 )
+frames = ExtResource( 9 )
+animation = "idle"
+flip_h = true
 
 [node name="VBox" type="VBoxContainer" parent="."]
 margin_left = 723.522
@@ -180,24 +187,28 @@ size_flags_vertical = 3
 [node name="LinkButton1" parent="Credits" instance=ExtResource( 6 )]
 margin_right = 184.0
 margin_bottom = 131.0
+custom_styles/focus = SubResource( 6 )
 text = "Programming by Efigi"
 
 [node name="LinkButton2" parent="Credits" instance=ExtResource( 6 )]
 margin_left = 188.0
 margin_right = 327.0
 margin_bottom = 131.0
+custom_styles/focus = SubResource( 7 )
 text = "Graphics by Sue"
 
 [node name="LinkButton3" parent="Credits" instance=ExtResource( 6 )]
 margin_left = 331.0
 margin_right = 464.0
 margin_bottom = 131.0
+custom_styles/focus = SubResource( 8 )
 text = "Music by Mikey"
 
 [node name="LinkButton4" parent="Credits" instance=ExtResource( 6 )]
 margin_left = 468.0
 margin_right = 636.0
 margin_bottom = 131.0
+custom_styles/focus = SubResource( 9 )
 text = "SFX by Nathan Reed"
 
 [node name="CreditsLabel" type="RichTextLabel" parent="."]
@@ -225,4 +236,11 @@ __meta__ = {
 [node name="MenuMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
 autoplay = true
+
+[node name="SpellSound1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+
+[node name="SpellSound2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+[connection signal="animation_finished" from="CharacterSprites/PlayerSprite" to="." method="_on_PlayerSprite_animation_finished"]
 [connection signal="pressed" from="VBox/StartButton" to="." method="_on_StartButton_pressed"]
