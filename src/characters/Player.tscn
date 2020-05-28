@@ -79,7 +79,7 @@ shape = SubResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Body"]
 scale = Vector2( 2.5, 2.5 )
 frames = ExtResource( 1 )
-animation = "idle"
+animation = "hurt"
 
 [node name="Hitboxes" type="Position2D" parent="Body/AnimatedSprite"]
 script = ExtResource( 65 )
@@ -117,7 +117,7 @@ current = true
 zoom = Vector2( 0.95, 0.95 )
 limit_left = 0
 limit_top = 0
-limit_right = 2160
+limit_right = 1440
 limit_bottom = 540
 
 [node name="ScreenShakeGenerator" parent="Camera2D" instance=ExtResource( 46 )]

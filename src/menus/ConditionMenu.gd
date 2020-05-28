@@ -6,4 +6,6 @@ func _ready():
 func appear():
 	if not Util.can_change_menu:
 		$AnimationPlayer.play("appear")
-		Util.can_change_menu = true
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	Util.can_change_menu = true

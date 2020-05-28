@@ -321,6 +321,7 @@ func knock_down():
 	
 func _on_has_turned():
 	var zombie = zombie_resource.instance()
+	emit_signal("dead", self)
 	print("TURNING")
 	zombie.global_position = global_position
 	get_parent().call_deferred("add_child", zombie)

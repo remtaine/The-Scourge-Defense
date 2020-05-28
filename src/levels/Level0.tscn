@@ -194,6 +194,7 @@ shape = SubResource( 1 )
 position = Vector2( 495.227, 71.2433 )
 
 [node name="LoseMenu" parent="LevelUI" instance=ExtResource( 3 )]
+modulate = Color( 1, 1, 1, 1 )
 
 [node name="WinMenu" parent="LevelUI" instance=ExtResource( 2 )]
 

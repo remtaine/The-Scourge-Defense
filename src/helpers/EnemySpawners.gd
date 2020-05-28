@@ -5,11 +5,12 @@ var current_wave = 0
 var enemy_spawn_list = []
 var current_enemies = []
 onready var wave_label = $CanvasLayer/WaveLabel
+onready var wave_side_label = $CanvasLayer/WaveSideLabel
 onready var wave_anim = $CanvasLayer/WaveLabel/AnimationPlayer
 onready var stage_timer = $StageTimer
 onready var melee_enemy = preload("res://src/characters/MeleeEnemy.tscn")
 onready var ranged_enemy = preload("res://src/characters/RangedEnemy.tscn")
-onready var rush_enemy = preload("res://src/characters/MeleeEnemy.tscn")
+onready var rush_enemy = preload("res://src/characters/RushEnemy.tscn")
 
 var times_spawned = 0
 var last_level = 10
@@ -18,6 +19,7 @@ var spawn_rows = []
 var spawn_points = []
 
 func _ready():
+	current_wave = 0
 	for row in get_children():
 		if row.get_class() == "Node2D":
 			spawn_rows.append(row)
@@ -27,16 +29,16 @@ func _ready():
 			temp.append(point)
 		spawn_points.append(temp)
 	
-	enemy_spawn_list.append([10,10,10]) #Wave 1
-	enemy_spawn_list.append([5,0,0]) #Wave 2
-	enemy_spawn_list.append([5,0,0]) #Wave 3
-	enemy_spawn_list.append([5,0,0]) #Wave 4
-	enemy_spawn_list.append([5,0,0]) #Wave 5
-	enemy_spawn_list.append([5,0,0]) #Wave 6
-	enemy_spawn_list.append([5,0,0]) #Wave 7
-	enemy_spawn_list.append([5,0,0]) #Wave 8
-	enemy_spawn_list.append([5,0,0]) #Wave 9
-	enemy_spawn_list.append([5,0,0]) #Wave 10
+	enemy_spawn_list.append([12,0,5]) #Wave 1
+	enemy_spawn_list.append([17,3,0]) #Wave 2
+	enemy_spawn_list.append([20,8,0]) #Wave 3
+	enemy_spawn_list.append([23,10,3]) #Wave 4
+	enemy_spawn_list.append([25,12,8]) #Wave 5
+	enemy_spawn_list.append([25,15,10]) #Wave 6
+	enemy_spawn_list.append([20,5,30]) #Wave 7
+	enemy_spawn_list.append([20,20,20]) #Wave 8
+	enemy_spawn_list.append([15,35,15]) #Wave 9
+	enemy_spawn_list.append([25,25,25]) #Wave 10
 
 	go_to_next_wave()
 
@@ -50,13 +52,16 @@ func _physics_process(delta):
 			spawn_horde(enemy_spawn_list[current_wave - 1])
 	else:
 		print(current_enemies.size(), " ENEMIES LEFT")
+
 func go_to_next_wave():
 	current_enemies = []
 	current_wave += 1
 	if current_wave > last_level:
 		Util.current_level.show_win_screen()
 	else:
+		wave_side_label.text = "Wave " + String(current_wave)
 		wave_label.text = "Wave " + String(current_wave)
+		wave_anim.play("appear")
 		var temp = 0
 		for i in range (0,3):
 			temp += enemy_spawn_list[current_wave - 1][i]

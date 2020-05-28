@@ -34,6 +34,7 @@ tracks/0/keys = {
 }
 
 [node name="WinMenu" type="Node2D"]
+modulate = Color( 1, 1, 1, 0.5 )
 script = ExtResource( 2 )
 
 [node name="TitleLabel" type="Label" parent="."]
@@ -70,3 +71,4 @@ text = "Press M for Main Menu"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/appear = SubResource( 4 )
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

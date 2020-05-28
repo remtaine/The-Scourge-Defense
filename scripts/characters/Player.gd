@@ -391,8 +391,17 @@ func _on_AnimatedSprite_frame_changed():
 			match sprite.get_frame(): #TODO CREATE custom hitbox for kick
 				2:
 					airkickbox.enable()
-				2:
+				3:
 					airkickbox.disable()
+		"attack_run_punch", "run":
+			match sprite.get_frame(): #TODO CREATE custom hitbox for kick
+				1:
+					pass
+#					$Sounds/FootstepSound.play()
+				4:
+					pass
+#					$Sounds/FootstepSound.play()
+			continue
 		"attack_run_punch":
 			match sprite.get_frame(): #TODO CREATE custom hitbox for kick
 				3:
