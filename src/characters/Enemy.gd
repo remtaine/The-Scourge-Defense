@@ -4,6 +4,7 @@ class_name Enemy
 
 signal speed_changed(speed, max_speed)
 
+
 var SPEED
 var MAX_SPEED
 
@@ -11,8 +12,8 @@ const JUMP_DURATION = 1.0
 const MAX_JUMP_HEIGHT = 100
 const MAX_KNOCKBACK_HEIGHT = -10
 
-const ATTACK_DIST = 30
-const CHASE_DIST = 150
+var ATTACK_DIST = 30
+var CHASE_DIST = 150
 var prev_jump_height = 100
 var jump_vel = 0
 var jump_pos = 0
@@ -22,7 +23,7 @@ var pos_before_knockback
 
 onready var anim_player = $AnimationPlayer
 onready var tween = $Tween
-onready var zombie_resource = preload("res://src/characters/Zombie.tscn")
+onready var zombie_resource = preload("res://src/characters/TurnedZombie.tscn")
 
 func _init():
 	max_hp = 3
@@ -42,6 +43,8 @@ func _init():
 	
 	_transitions = {
 		[STATES.IDLE, EVENTS.RUN]: STATES.RUN,
+		[STATES.CHASE, EVENTS.RUN]: STATES.RUN,
+		[STATES.ATTACK, EVENTS.RUN]: STATES.RUN,
 		[STATES.IDLE, EVENTS.ATTACK]: STATES.ATTACK,
 		[STATES.IDLE, EVENTS.CHASE]: STATES.CHASE,
 		[STATES.RUN, EVENTS.IDLE]: STATES.IDLE,
@@ -76,8 +79,9 @@ func _init():
 	base_damage = 1
 	instance_name = "enemy"	
 
+
+
 func _ready():
-	choose_target()
 	health.setup(self)
 	_state = STATES.IDLE
 	_speed = SPEED[_state]
@@ -86,7 +90,10 @@ func _ready():
 func _physics_process(delta):
 #	var slide_count = get_slide_count()
 #	_collision_normal = get_slide_collision(slide_count - 1).normal if slide_count > 0 else _collision_normal
-	
+	if current_target == null or !current_target_wr.get_ref():
+		current_target = null
+		current_target_wr = null
+
 	if frozen_duration > 0.0:
 #		match _state: # before being frozen
 #			STATES.HURT:
@@ -113,7 +120,7 @@ func _physics_process(delta):
 				if not $Sounds/HurtSound.is_playing():
 					$Sounds/HurtSound.play()
 				$HurtAnimationPlayer.play("hurt")
-				if last_damaged_by.instance_name == "player":
+				if last_damaged_by_wr.get_ref() and last_damaged_by.instance_name == "player":
 					if not last_damaged_by.is_flipped:#ie player is at left
 						_velocity.x = KNOCKBACK_LENGTH
 					else:
@@ -123,14 +130,13 @@ func _physics_process(delta):
 				print("ENEMY ATTACKED!")
 				$Sounds/AttackSound.play()
 				
-	var input = get_raw_input(_state)
-	var event = decode_raw_input(input)
+	var event = get_event()
 	
 	change_state(event)
 	
 	match _state: #match for velocity
 		STATES.RUN:
-			_dir = input.direction
+			_dir = Vector2.LEFT
 			continue
 		STATES.CHASE:
 			if (is_flipped and is_facing(current_target)) or (not is_flipped and not is_facing(current_target)) and abs(global_position.x - current_target.global_position.x) > 20:
@@ -139,10 +145,11 @@ func _physics_process(delta):
 				_dir.x = -1				
 			else:
 				_dir.x = 0
-				
-			if global_position.y < current_target.global_position.y and abs(global_position.y - current_target.global_position.y) > 20:
+			
+			var temp_dist = abs(global_position.y - current_target.global_position.y)
+			if global_position.y < current_target.global_position.y and temp_dist > 20:
 				_dir.y = 1
-			elif global_position.y > current_target.global_position.y and abs(global_position.y - current_target.global_position.y) > 20:
+			elif global_position.y > current_target.global_position.y and temp_dist > 20:
 				_dir.y = -1				
 			else:
 				_dir.y = 0
@@ -164,6 +171,11 @@ func _physics_process(delta):
 			flip(_velocity.x > 0)
 		_:
 			flip(_velocity.x < 0)
+			
+	if is_flipped:
+		sprite.set_offset(Vector2(-10,0))
+	else:
+		sprite.set_offset(Vector2(0,0))
 
 	match _state: #match for movement
 		STATES.DIE, STATES.ATTACK:
@@ -212,22 +224,8 @@ func enter_state():
 #			_velocity.x /= tem
 		STATES.DIE:
 			frozen_duration = BASE_FREEZE_DURATION
-		
-static func get_raw_input(state):
-	return {
-		direction = Vector2(-1, 0),
-		is_attacking = false,
-		is_rolling = false,
-		is_jumping = false,
-	}
 
-static func get_input_direction(event = Input):
-	return Vector2(
-			float(event.is_action_pressed("move_right")) - float(event.is_action_pressed("move_left")),
-			float(event.is_action_pressed("move_down")) - float(event.is_action_pressed("move_up")))
-
-
-func decode_raw_input(input):
+func get_event():
 	"""
 	Converts the player's input to events. The state machine
 	uses these events to trigger transitions from one state to another.
@@ -235,11 +233,11 @@ func decode_raw_input(input):
 	var event = EVENTS.INVALID
 #	if not $Timers/StunnedTimer.is_stopped():
 #		return EVENTS.IDLE
-	if current_target == null:
+	if current_target == null or not current_target_wr.get_ref():
 		return EVENTS.RUN
-	if global_position.distance_to(current_target.global_position) < ATTACK_DIST and $Timers/AttackCDTimer.is_stopped():# and is_facing(current_target):
+	if global_position.distance_to(current_target.global_position) < ATTACK_DIST:# and is_facing(current_target):
 		event = EVENTS.ATTACK
-	elif global_position.distance_to(current_target.global_position) < CHASE_DIST and $Timers/AttackCDTimer.is_stopped():
+	elif global_position.distance_to(current_target.global_position) < CHASE_DIST:
 		event = EVENTS.CHASE
 	else:
 		event = EVENTS.RUN
@@ -252,7 +250,6 @@ func is_facing(target):
 func _on_AnimatedSprite_animation_finished():
 	match sprite.animation:
 		"attack":
-			$Timers/AttackCDTimer.start()
 			change_state(EVENTS.ATTACK_END)
 		"roll":
 			sprite.position.y = 0		
@@ -314,14 +311,14 @@ func knock_down():
 	var kn_duration = 0.1
 #	$Tween.interpolate_property(sprite, "position", temp, Vector2(temp.x, 0), kn_duration, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	$Tween.interpolate_method(self,"animate_knock_down", 0.5, 1, kn_duration,Tween.TRANS_LINEAR, Tween.EASE_IN)
-	$Tween.start()
-
+	$Tween.start()	
+	
 func _on_has_turned():
 	var zombie = zombie_resource.instance()
-	zombie.setup(global_position)
+	print("TURNING")
+	zombie.global_position = global_position
 	get_parent().call_deferred("add_child", zombie)
 	queue_free() #TODO change state to turned
-	print("ENEMY HAS BEEEN TURNED")
 
 func _on_HurtAnimationPlayer_animation_finished(anim_name):
 	if anim_name == "hurt" and _state != STATES.KNOCKED_UP:
@@ -336,6 +333,22 @@ func _on_AnimatedSprite_frame_changed():
 					hitboxes.get_node("BasicAttackHitbox").enable()
 				4:
 					hitboxes.get_node("BasicAttackHitbox").disable()
+		
 
 func choose_target():
-	current_target = search_nearest_target()
+	print("SEARCHING FOR TARGET")
+	if has_been_attacked:
+		print("I HAEV BEN ATTACKED")
+		return
+	var target_dist
+	for i in range (0, Util.current_level.allies.size()):
+		var possible_target = Util.current_level.allies[i]
+		if current_target == null:
+			current_target = possible_target
+			target_dist = possible_target.global_position.distance_to(global_position)
+		else:
+			var new_target_dist = possible_target.global_position.distance_to(global_position)
+			if new_target_dist < target_dist:
+				current_target = possible_target
+				target_dist = possible_target.global_position.distance_to(global_position)
+	print("current target is now", instance_name)

@@ -3,6 +3,8 @@ extends Character
 class_name Zombie
 
 signal speed_changed(speed, max_speed)
+signal zombie_spawned
+
 
 var SPEED
 var MAX_SPEED
@@ -57,12 +59,12 @@ func _init():
 
 func _ready():
 	$Sounds/SummonedSound.play()
+	emit_signal("zombie_spawned")
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")
 
-func setup(g_pos):
-	global_position = g_pos
-#	pass
-
+func setup(s):
+	connect("zombie_spawned", s, "_on_zombie_spawned")
+	
 func _physics_process(delta):
 #	var slide_count = get_slide_count()
 #	_collision_normal = get_slide_collision(slide_count - 1).normal if slide_count > 0 else _collision_normal

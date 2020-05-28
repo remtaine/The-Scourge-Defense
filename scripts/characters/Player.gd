@@ -9,7 +9,7 @@ var SPEED
 var MAX_SPEED
 
 const JUMP_DURATION = 0.7
-const MAX_JUMP_HEIGHT = -80
+const MAX_JUMP_HEIGHT = -60
 const JUMP_FALL_DISCREPANCY = 0.05
 
 var prev_jump_height = 100
@@ -101,9 +101,11 @@ func _init():
 	Util.current_player = self
 
 func _ready():
+	max_hp = 20
+	base_damage = 1
 	_state = STATES.IDLE
 	_speed = SPEED[_state]
-	$Health.setup(self)
+	health.setup(self)
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")
 
 

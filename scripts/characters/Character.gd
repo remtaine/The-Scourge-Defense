@@ -52,18 +52,20 @@ onready var hurt_timer = $Timers/HurtTimer
 onready var frozen_timer = $Timers/FrozenTimer
 onready var stunned_timer = $Timers/StunnedTimer
 onready var timers = $Timers
-onready var health = $Health
+onready var health = $CanvasModulate/Health
 
 var current_target = null
+var current_target_wr = null
 var has_been_attacked = false
 
 var is_flipped = false
 var is_alive = true
 
-var base_damage = 0
+var base_damage = 1
 var last_damaged_by
+var last_damaged_by_wr
 var KNOCKBACK_LENGTH = 90
-const BASE_FREEZE_DURATION = 0.1
+const BASE_FREEZE_DURATION = 0.01
 var frozen_duration = 0.0
 
 var _state = "idle"
@@ -132,9 +134,11 @@ func _on_hit_enemy(multiplier = 1):
 
 func _on_take_damage(damager, dmg = base_damage):
 	last_damaged_by = damager
+	last_damaged_by_wr = weakref(damager)
 	if not has_been_attacked:
 		has_been_attacked = true
 		current_target = last_damaged_by
+		current_target_wr = weakref(last_damaged_by)
 #	print("LAST DAMAGED BY ", damager.instance_name)
 	 #TODO add damage
 	health.update_health(dmg)
@@ -187,6 +191,7 @@ func flip(val = null):
 		sprite.scale.x = current_sprite_scale.x
 		shadow_sprite.scale.x = current_shadow_scale.x
 		is_flipped = false
+	
 #	pass
 #	var snap = Vector2.DOWN * 16 if is_on_floor() else Vector2.ZERO
 #	return body.move_and_slide_with_snap(_air_velocity, snap, Vector2.UP)

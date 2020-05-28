@@ -43,7 +43,6 @@ font_data = ExtResource( 15 )
 "enemies",
 ]]
 collision_layer = 4
-collision_mask = 5
 script = ExtResource( 14 )
 
 [node name="ShadowSprite" type="Sprite" parent="."]
@@ -53,10 +52,9 @@ scale = Vector2( 0.2, 0.025 )
 texture = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.427189, -0.0328407 )
+position = Vector2( 0.427189, -2.02584 )
 scale = Vector2( 1.50668, 0.320001 )
 shape = SubResource( 1 )
-disabled = true
 
 [node name="Body" type="Area2D" parent="."]
 position = Vector2( 27.2476, -30.8005 )
@@ -71,7 +69,6 @@ rotation = -3.14159
 scale = Vector2( 2, -2 )
 frames = ExtResource( 1 )
 animation = "idle"
-frame = 2
 playing = true
 
 [node name="Hitboxes" type="Node2D" parent="Body/AnimatedSprite"]
@@ -112,10 +109,6 @@ one_shot = true
 
 [node name="FrozenTimer" parent="Timers" instance=ExtResource( 43 )]
 
-[node name="AttackCDTimer" type="Timer" parent="Timers"]
-wait_time = 0.2
-one_shot = true
-
 [node name="StunnedTimer" type="Timer" parent="Timers"]
 wait_time = 0.3
 
@@ -133,8 +126,12 @@ stream = ExtResource( 7 )
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 9 )
 
-[node name="Health" parent="." instance=ExtResource( 10 )]
-position = Vector2( 0, -30 )
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
+[node name="Health" parent="CanvasModulate" instance=ExtResource( 10 )]
+visible = false
+
+[node name="Range" type="Node2D" parent="."]
 [connection signal="animation_finished" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="frame_changed" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
 [connection signal="animation_finished" from="HurtAnimationPlayer" to="." method="_on_HurtAnimationPlayer_animation_finished"]

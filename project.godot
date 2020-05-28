@@ -30,15 +30,21 @@ _global_script_classes=[ {
 "path": "res://scripts/characters/Player.gd"
 }, {
 "base": "Character",
+"class": "TurnedZombie",
+"language": "GDScript",
+"path": "res://src/characters/TurnedZombie.gd"
+}, {
+"base": "Character",
 "class": "Zombie",
 "language": "GDScript",
-"path": "res://src/characters/Zombie.gd"
+"path": "res://src/characters/OldZombie.gd"
 } ]
 _global_script_class_icons={
 "CalculatorBox": "",
 "Character": "",
 "Enemy": "",
 "Player": "",
+"TurnedZombie": "",
 "Zombie": ""
 }
 

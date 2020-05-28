@@ -1,54 +1,53 @@
-[gd_resource type="SpriteFrames" load_steps=26 format=2]
+[gd_resource type="SpriteFrames" load_steps=25 format=2]
 
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/attack/enemy1_attack1.png" type="Texture" id=1]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/attack/enemy1_attack5.png" type="Texture" id=2]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/walk/enemy1_walk7.png" type="Texture" id=3]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/walk/enemy1_walk4.png" type="Texture" id=4]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/walk/enemy1_walk5.png" type="Texture" id=5]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/walk/enemy1_walk6.png" type="Texture" id=6]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/walk/enemy1_walk3.png" type="Texture" id=7]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/walk/enemy1_walk8.png" type="Texture" id=8]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/walk/enemy1_walk1.png" type="Texture" id=9]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/hurt/enemy1_hurt1.png" type="Texture" id=10]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/die/enemy1_die4.png" type="Texture" id=11]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/attack/enemy1_attack4.png" type="Texture" id=12]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/hurt/enemy1_hurt2.png" type="Texture" id=13]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/die/enemy1_die2.png" type="Texture" id=14]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/die/enemy1_die3.png" type="Texture" id=15]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/walk/enemy1_walk2.png" type="Texture" id=16]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/attack/enemy1_attack3.png" type="Texture" id=17]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/attack/enemy1_attack6.png" type="Texture" id=18]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/attack/enemy1_attack7.png" type="Texture" id=19]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/hurt/enemy1_hurt3.png" type="Texture" id=20]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/die/enemy1_die1.png" type="Texture" id=21]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/attack/enemy1_attack2.png" type="Texture" id=22]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/idle/enemy1_idle1.png" type="Texture" id=23]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/idle/enemy1_idle3.png" type="Texture" id=24]
-[ext_resource path="res://images/characters/new enemies/enemy1/enemy1/idle/enemy1_idle2.png" type="Texture" id=25]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/attack/enemy2_attack5.png" type="Texture" id=1]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/idle/enemy2_idle1.png" type="Texture" id=2]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/attack/enemy2_attack6.png" type="Texture" id=3]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/walk/enemy2_walk6.png" type="Texture" id=4]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/walk/enemy2_walk7.png" type="Texture" id=5]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/hurt/enemy2_hurt3.png" type="Texture" id=6]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/walk/enemy2_walk8.png" type="Texture" id=7]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/die/enemy2_die1.png" type="Texture" id=8]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/die/enemy2_die3.png" type="Texture" id=9]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/attack/enemy2_attack2.png" type="Texture" id=10]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/hurt/enemy2_hurt2.png" type="Texture" id=11]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/idle/enemy2_idle2.png" type="Texture" id=12]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/die/enemy2_die2.png" type="Texture" id=13]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/attack/enemy2_attack3.png" type="Texture" id=14]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/attack/enemy2_attack4.png" type="Texture" id=15]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/idle/enemy2_idle3.png" type="Texture" id=16]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/hurt/enemy2_hurt1.png" type="Texture" id=17]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/die/enemy2_die4.png" type="Texture" id=18]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/attack/enemy2_attack1.png" type="Texture" id=19]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/walk/enemy2_walk5.png" type="Texture" id=20]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/walk/enemy2_walk1.png" type="Texture" id=21]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/walk/enemy2_walk2.png" type="Texture" id=22]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/walk/enemy2_walk3.png" type="Texture" id=23]
+[ext_resource path="res://images/characters/new enemies v2/enemy2/walk/enemy2_walk4.png" type="Texture" id=24]
 
 [resource]
 animations = [ {
-"frames": [ ExtResource( 23 ), ExtResource( 25 ), ExtResource( 24 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 12 ), ExtResource( 16 ) ],
 "loop": true,
 "name": "idle",
 "speed": 3.0
 }, {
-"frames": [ ExtResource( 1 ), ExtResource( 22 ), ExtResource( 17 ), ExtResource( 12 ), ExtResource( 2 ), ExtResource( 18 ), ExtResource( 19 ) ],
+"frames": [ ExtResource( 19 ), ExtResource( 10 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 1 ), ExtResource( 3 ) ],
 "loop": false,
 "name": "attack",
 "speed": 6.0
 }, {
-"frames": [ ExtResource( 9 ), ExtResource( 16 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 20 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "run",
 "speed": 8.0
 }, {
-"frames": [ ExtResource( 21 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 11 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 13 ), ExtResource( 9 ), ExtResource( 18 ) ],
 "loop": false,
 "name": "die",
 "speed": 6.0
 }, {
-"frames": [ ExtResource( 10 ), ExtResource( 13 ), ExtResource( 20 ) ],
+"frames": [ ExtResource( 17 ), ExtResource( 11 ), ExtResource( 6 ) ],
 "loop": true,
 "name": "hurt",
 "speed": 5.0

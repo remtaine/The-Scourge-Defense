@@ -1,0 +1,191 @@
+[gd_scene load_steps=42 format=2]
+
+[ext_resource path="res://src/stats/Health.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/timers/FrozenTimer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/calculators/Hurtbox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/calculators/Hitbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://fonts/BebasNeue Bold.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://images/placeholders/circle of light.png" type="Texture" id=6]
+[ext_resource path="res://sfx/characters/enemies/hurt/ENEMY HURT.wav" type="AudioStream" id=7]
+[ext_resource path="res://sfx/characters/enemies/hurt/ENEMY DEATH.wav" type="AudioStream" id=8]
+[ext_resource path="res://src/characters/MeleeEnemy.gd" type="Script" id=9]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/walk/enemy1_walk7.png" type="Texture" id=10]
+[ext_resource path="res://sfx/characters/enemies/captured/ENEMY CAPTURE 2.wav" type="AudioStream" id=11]
+[ext_resource path="res://sfx/characters/enemies/attack/BLADE MISS 1.wav" type="AudioStream" id=12]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/hurt/enemy1_hurt2.png" type="Texture" id=13]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/die/enemy1_die2.png" type="Texture" id=14]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/die/enemy1_die3.png" type="Texture" id=15]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/die/enemy1_die4.png" type="Texture" id=16]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/die/enemy1_die1.png" type="Texture" id=17]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/hurt/enemy1_hurt1.png" type="Texture" id=18]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/walk/enemy1_walk8.png" type="Texture" id=19]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/hurt/enemy1_hurt3.png" type="Texture" id=20]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/attack/enemy1_attack6.png" type="Texture" id=21]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/attack/enemy1_attack3.png" type="Texture" id=22]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/attack/enemy1_attack7.png" type="Texture" id=23]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/attack/enemy1_attack1.png" type="Texture" id=24]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/attack/enemy1_attack2.png" type="Texture" id=25]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/attack/enemy1_attack4.png" type="Texture" id=26]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/attack/enemy1_attack5.png" type="Texture" id=27]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/walk/enemy1_walk1.png" type="Texture" id=28]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/walk/enemy1_walk4.png" type="Texture" id=29]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/walk/enemy1_walk3.png" type="Texture" id=30]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/idle/enemy1_idle3.png" type="Texture" id=31]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/walk/enemy1_walk2.png" type="Texture" id=32]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/walk/enemy1_walk5.png" type="Texture" id=33]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/walk/enemy1_walk6.png" type="Texture" id=34]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/idle/enemy1_idle2.png" type="Texture" id=35]
+[ext_resource path="res://images/characters/new enemies v2/enemy1/idle/enemy1_idle1.png" type="Texture" id=36]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 9.73019, 11.2556 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ ExtResource( 36 ), ExtResource( 35 ), ExtResource( 31 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 24 ), ExtResource( 25 ), ExtResource( 22 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 21 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "attack",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 32 ), ExtResource( 30 ), ExtResource( 29 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 10 ), ExtResource( 19 ) ],
+"loop": true,
+"name": "run",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ) ],
+"loop": true,
+"name": "die",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 13 ), ExtResource( 20 ) ],
+"loop": true,
+"name": "hurt",
+"speed": 5.0
+} ]
+
+[sub_resource type="Animation" id=3]
+resource_name = "hurt"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/AnimatedSprite:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ), Color( 100, 100, 100, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="DynamicFont" id=4]
+size = 20
+font_data = ExtResource( 5 )
+
+[node name="MeleeEnemy" type="KinematicBody2D" groups=[
+"enemies",
+]]
+collision_layer = 4
+script = ExtResource( 9 )
+
+[node name="ShadowSprite" type="Sprite" parent="."]
+modulate = Color( 0, 0, 0, 0.301961 )
+show_behind_parent = true
+scale = Vector2( 0.2, 0.025 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0.427189, -2.02584 )
+scale = Vector2( 1.50668, 0.320001 )
+shape = SubResource( 1 )
+
+[node name="Body" type="Area2D" parent="."]
+position = Vector2( 27.2476, -30.8005 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
+position = Vector2( 0, 19.9933 )
+shape = SubResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Body"]
+position = Vector2( -17.9123, 0 )
+rotation = -3.14159
+scale = Vector2( 2, -2 )
+frames = SubResource( 6 )
+animation = "attack"
+frame = 1
+playing = true
+
+[node name="Hitboxes" type="Node2D" parent="Body/AnimatedSprite"]
+
+[node name="BasicAttackHitbox" parent="Body/AnimatedSprite/Hitboxes" instance=ExtResource( 4 )]
+position = Vector2( -11.0234, 3.24216 )
+scale = Vector2( 1.256, 1 )
+
+[node name="Hurtboxes" type="Node2D" parent="Body/AnimatedSprite"]
+
+[node name="Hurtbox" parent="Body/AnimatedSprite/Hurtboxes" instance=ExtResource( 3 )]
+position = Vector2( 2.37169, 0.326525 )
+scale = Vector2( 0.920001, 1.552 )
+
+[node name="HurtAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/hurt = SubResource( 3 )
+
+[node name="StateLabel" type="Label" parent="."]
+visible = false
+margin_left = -100.927
+margin_top = 5.39104
+margin_right = 99.0726
+margin_bottom = 25.391
+custom_fonts/font = SubResource( 4 )
+text = "IDLE"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="HurtTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="FrozenTimer" parent="Timers" instance=ExtResource( 2 )]
+
+[node name="StunnedTimer" type="Timer" parent="Timers"]
+wait_time = 0.3
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 8 )
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 12 )
+
+[node name="CapturedSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 11 )
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 7 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
+[node name="Health" parent="CanvasModulate" instance=ExtResource( 1 )]
+visible = false
+
+[node name="Range" type="Node2D" parent="."]
+[connection signal="animation_finished" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="frame_changed" from="Body/AnimatedSprite" to="." method="_on_AnimatedSprite_frame_changed"]
+[connection signal="animation_finished" from="HurtAnimationPlayer" to="." method="_on_HurtAnimationPlayer_animation_finished"]
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]

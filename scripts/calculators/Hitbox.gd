@@ -11,7 +11,7 @@ func _on_Hitbox_area_entered(area):
 #		if area.host._state != "HURT" and area.host.is_alive and abs(host.global_position.y - area.host.global_position.y) < 50:
 			if host.is_in_group("player"):
 				emit_signal("hit_enemy")
-			area.emit_signal("took_damage", host)
+			area.emit_signal("took_damage", host, host.base_damage)
 
 func enable():
 	$AnimationPlayer.play("flash")
