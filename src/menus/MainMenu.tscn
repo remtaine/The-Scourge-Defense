@@ -82,7 +82,6 @@ position = Vector2( 341.487, 336.579 )
 scale = Vector2( 5, 5 )
 frames = ExtResource( 2 )
 animation = "idle"
-frame = 2
 playing = true
 __meta__ = {
 "_editor_description_": "w"
@@ -100,7 +99,7 @@ position = Vector2( 560.095, 294.32 )
 scale = Vector2( 5, 5 )
 frames = ExtResource( 9 )
 animation = "idle"
-frame = 2
+frame = 1
 playing = true
 
 [node name="EnemySprite2" type="AnimatedSprite" parent="CharacterSprites"]
@@ -108,6 +107,7 @@ position = Vector2( 591.829, 359.373 )
 scale = Vector2( 5, 5 )
 frames = ExtResource( 9 )
 animation = "idle"
+frame = 2
 playing = true
 
 [node name="EnemySprite3" type="AnimatedSprite" parent="CharacterSprites"]
@@ -115,6 +115,7 @@ position = Vector2( 517.255, 402.213 )
 scale = Vector2( 5, 5 )
 frames = ExtResource( 9 )
 animation = "idle"
+frame = 2
 playing = true
 
 [node name="EnemySprite4" type="AnimatedSprite" parent="CharacterSprites"]
@@ -122,7 +123,7 @@ position = Vector2( 149.147, 303.054 )
 scale = Vector2( 5, 5 )
 frames = ExtResource( 9 )
 animation = "idle"
-frame = 2
+frame = 1
 playing = true
 flip_h = true
 
@@ -131,7 +132,7 @@ position = Vector2( 96.787, 369.695 )
 scale = Vector2( 5, 5 )
 frames = ExtResource( 9 )
 animation = "idle"
-frame = 2
+frame = 1
 playing = true
 flip_h = true
 
@@ -140,28 +141,29 @@ position = Vector2( 177.707, 410.948 )
 scale = Vector2( 5, 5 )
 frames = ExtResource( 9 )
 animation = "idle"
+frame = 2
 playing = true
 flip_h = true
 
 [node name="VBox" type="VBoxContainer" parent="."]
 margin_left = 702.425
-margin_top = 247.996
+margin_top = 244.48
 margin_right = 865.425
-margin_bottom = 443.996
+margin_bottom = 440.48
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="StartButton" parent="VBox" instance=ExtResource( 4 )]
 margin_right = 163.0
-margin_bottom = 70.0
+margin_bottom = 100.0
 custom_styles/focus = SubResource( 2 )
 dest = "res://src/levels/Level0.tscn"
 
 [node name="InstructionsLabel" type="Label" parent="VBox"]
-margin_top = 74.0
+margin_top = 104.0
 margin_right = 163.0
-margin_bottom = 166.0
+margin_bottom = 196.0
 custom_fonts/font = SubResource( 3 )
 text = "WASD/ Arrow Keys to Move
 J to Attack
@@ -171,12 +173,13 @@ Spacebar to Jump"
 align = 1
 
 [node name="VersionLabel" type="Label" parent="."]
-margin_left = 781.227
-margin_top = 446.172
-margin_right = 944.227
-margin_bottom = 519.172
+self_modulate = Color( 1, 1, 1, 0.356863 )
+margin_left = 786.501
+margin_top = 453.204
+margin_right = 949.501
+margin_bottom = 526.204
 custom_fonts/font = SubResource( 4 )
-text = "v1.0.1
+text = "v1.0.4
 Made for the Weekly Game Jam
 Week 150
 THeme: \"You're the Enemy\""

@@ -1,6 +1,9 @@
 extends Node2D
 
 const MAX_SPAWN_PER_STAGE = 1
+const MAX_X_OFFSET = 50
+const MAX_Y_OFFSET = 5
+
 var current_wave = 0
 var enemy_spawn_list = []
 var current_enemies = []
@@ -50,8 +53,6 @@ func _physics_process(delta):
 		else:
 			print("NEXT STAGE")		
 			spawn_horde(enemy_spawn_list[current_wave - 1])
-	else:
-		print(current_enemies.size(), " ENEMIES LEFT")
 
 func go_to_next_wave():
 	if Util.can_change_menu:
@@ -83,15 +84,28 @@ func spawn_enemies(list):
 			#spawn enemy at that point
 			match i:
 				0:
+#					call_deferred("summon",melee_enemy, temp_pos)
 					summon(melee_enemy, temp_pos)
 				1:
+#					call_deferred("summon",ranged_enemy, temp_pos)
 					summon(ranged_enemy, temp_pos)
 				2:
+#					call_deferred("summon",rush_enemy, temp_pos)
 					summon(rush_enemy, temp_pos)
 
 func summon(resource, pos):
+	var temp_offset = Vector2()
+	randomize()
+	temp_offset.x = (randi() % ((2 * MAX_X_OFFSET) + 1)) - MAX_X_OFFSET
+	randomize()
+	temp_offset.y = (randi() % ((2 * MAX_Y_OFFSET) + 1)) - MAX_Y_OFFSET
 	var entity = resource.instance()
-	entity.global_position = pos
+	
+	var temp_pos = Vector2()
+	temp_pos.x = pos.x + temp_offset.x
+	temp_pos.y = pos.y + temp_offset.y
+	
+	entity.global_position = temp_pos
 	current_enemies.append(entity)
 	entity.connect("dead", self, "_on_enemy_dead")
 	get_parent().get_node("Characters").call_deferred("add_child", entity)
@@ -108,7 +122,6 @@ func spawn_horde(list):
 	
 func _on_StageTimer_timeout():
 	if times_spawned < MAX_SPAWN_PER_STAGE:
-		print("TIMED OUT")
 		spawn_horde(enemy_spawn_list[current_wave - 1])
 	else:
 		pass

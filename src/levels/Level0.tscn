@@ -167,8 +167,8 @@ volume_db = -8.0
 autoplay = true
 
 [node name="EnemySpawners" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1660.36, 242.688 )
-scale = Vector2( 0.8, 0.5 )
+position = Vector2( 1660.36, 253.237 )
+scale = Vector2( 0.8, 0.4 )
 
 [node name="icon" type="Sprite" parent="EnemySpawners"]
 position = Vector2( -29.0911, -392.123 )

@@ -14,3 +14,6 @@ func _on_just_died():
 		sprite.get_node("AnimationPlayer").play("disappear")
 		is_dead = true
 	Util.current_level.show_lose_screen()
+
+func _on_got_hurt():
+	$HurtAnimationPlayer.play("hurt")

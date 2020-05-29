@@ -188,8 +188,9 @@ func _physics_process(delta):
 	match _state: #match for flipping
 		STATES.ATTACK_RUN_PUNCH, STATES.ATTACK_PUNCH, STATES.IDLE, STATES.HURT, STATES.DIE, STATES.CASTING_TURNING_SPELL:
 			pass
-#		STATES.HURT, STATES.DIE:
-#			flip(_velocity.x > 0)
+		STATES.RUN:
+			if _velocity.x != 0:
+				flip(_velocity.x <= 0)
 		_:
 			flip(_velocity.x <= 0)
 	
@@ -218,6 +219,11 @@ func enter_state():
 	$StateLabel.text = _state
 	
 	match prev_state:
+		STATES.ATTACK_PUNCH, STATES.ATTACK_RUN_PUNCH, STATES.ATTACK_AIR_KICK:
+			for child in $Body/AnimatedSprite/Hitboxes.get_children():
+				if child.has_method("disable"):
+					child.disable()
+					
 		STATES.CASTING_TURNING_SPELL, STATES.ATTACK_AIR_KICK, STATES.ATTACK_PUNCH, STATES.ATTACK_RUN_PUNCH:
 			$Body/AnimatedSprite/Hitboxes.disable_all()
 			continue
@@ -324,9 +330,6 @@ func decode_raw_input(input):
 func _on_AnimatedSprite_animation_finished():
 	match sprite.animation:
 		"attack_punch", "attack_run_punch", "attack_air_kick":
-			for child in $Body/AnimatedSprite/Hitboxes.get_children():
-				if child.has_method("disable"):
-					child.disable()
 			change_state(EVENTS.ATTACK_END)
 		"roll":
 			sprite.position.y = 0		

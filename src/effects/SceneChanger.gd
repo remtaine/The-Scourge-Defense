@@ -7,7 +7,6 @@ onready var black = $Control/ColorRect
 onready var delay_timer = $DelayTimer
 
 func change_scene(path, delay = 0.2):
-	print("CHANGING SCENE")
 	delay_timer.start(delay)
 	yield(delay_timer, "timeout")
 	

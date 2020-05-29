@@ -43,7 +43,6 @@ tracks/0/keys = {
 "allies",
 "player",
 ]]
-position = Vector2( 0, -50 )
 collision_layer = 2
 script = ExtResource( 17 )
 
@@ -61,12 +60,12 @@ tint_progress = Color( 0.784314, 0.784314, 0.784314, 1 )
 [node name="ShadowSprite" type="Sprite" parent="."]
 modulate = Color( 0, 0, 0, 0.301961 )
 show_behind_parent = true
-position = Vector2( -4.51251, 19.855 )
+position = Vector2( -4.51251, 2.85502 )
 scale = Vector2( 0.25, 0.025 )
 texture = ExtResource( 24 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 1.77321 )
+position = Vector2( 0, -15.2268 )
 scale = Vector2( 1.36, 0.025 )
 shape = SubResource( 1 )
 __meta__ = {
@@ -74,7 +73,7 @@ __meta__ = {
 }
 
 [node name="Body" type="Area2D" parent="."]
-position = Vector2( -1.67249, -27.294 )
+position = Vector2( -1.67249, -44.294 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
 position = Vector2( -6.56415, 27.916 )

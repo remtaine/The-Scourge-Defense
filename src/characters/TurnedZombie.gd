@@ -128,8 +128,7 @@ func _physics_process(delta):
 				$Sounds/AttackSound.play()
 	
 	if current_target == null or !current_target_wr.get_ref():
-		current_target = null
-		current_target_wr = null
+		change_target(null)
 		
 	var input = get_raw_input(_state)
 	var event = decode_raw_input(input)

@@ -134,7 +134,7 @@ script = ExtResource( 7 )
 
 [node name="Hurtbox" parent="Body/AnimatedSprite/Hurtboxes" instance=ExtResource( 5 )]
 position = Vector2( 2.64167, 23.5871 )
-scale = Vector2( 12.0502, 37.8919 )
+scale = Vector2( 14.6102, 45.9418 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Body/AnimatedSprite"]
 anims/disappear = SubResource( 6 )
