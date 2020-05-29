@@ -141,6 +141,8 @@ func _on_take_damage(damager, dmg = base_damage):
 	health.update_health(dmg)
 
 func change_target(target):
+	if target == null and is_in_group("zombies"):
+		$Range/AttackRange/CollisionShape2D.disabled = false
 	current_target = target
 	current_target_wr = weakref(target)
 	

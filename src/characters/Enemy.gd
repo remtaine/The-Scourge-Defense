@@ -13,8 +13,9 @@ const MAX_JUMP_HEIGHT = 100
 const MAX_KNOCKBACK_HEIGHT = -10
 
 var ATTACK_DIST = 30
-var PYLON_ATTACK_DIST = 120
+var PYLON_ATTACK_DIST = 150
 var CHASE_DIST = 250
+var PYLON_CHASE_DIST = 350
 var prev_jump_height = 100
 var jump_vel = 0
 var jump_pos = 0
@@ -249,6 +250,8 @@ func get_event():
 	elif current_target == Util.primary_target and temp_dist < PYLON_ATTACK_DIST:
 		event = EVENTS.ATTACK
 	elif temp_dist < CHASE_DIST:
+		event = EVENTS.CHASE
+	elif current_target == Util.primary_target and temp_dist < PYLON_CHASE_DIST:
 		event = EVENTS.CHASE
 	else:
 		event = EVENTS.RUN

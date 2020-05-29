@@ -364,6 +364,7 @@ func _on_AttackRange_body_entered(body):
 		has_been_attacked = true
 		current_target = body
 		current_target_wr = weakref(body)
+		$Range/AttackRange/CollisionShape2D.disabled = true
 
 func _on_AttackRange_body_exited(body):
 	_on_AttackRange_body_entered(body)

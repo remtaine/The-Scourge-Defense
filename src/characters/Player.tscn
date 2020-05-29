@@ -1,8 +1,10 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://spriteframes/Player.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://src/stats/Health.tscn" type="PackedScene" id=2]
 [ext_resource path="res://sfx/characters/player/death/DEATH 1 (PLAYER).wav" type="AudioStream" id=3]
+[ext_resource path="res://images/ui/healthybar_0.png" type="Texture" id=4]
+[ext_resource path="res://images/ui/healthybar_1.png" type="Texture" id=5]
 [ext_resource path="res://scripts/characters/Player.gd" type="Script" id=17]
 [ext_resource path="res://images/placeholders/circle of light.png" type="Texture" id=24]
 [ext_resource path="res://src/helpers/StateLabel.tscn" type="PackedScene" id=29]
@@ -48,10 +50,13 @@ script = ExtResource( 17 )
 [node name="CanvasModulate" type="CanvasLayer" parent="."]
 
 [node name="Health" parent="CanvasModulate" instance=ExtResource( 2 )]
-margin_top = 13.948
-margin_bottom = 238.948
-rect_scale = Vector2( 1.5, 0.16 )
-tint_progress = Color( 0.388235, 0.92549, 0.0941176, 1 )
+margin_top = 9.948
+margin_right = 298.0
+margin_bottom = 234.948
+rect_scale = Vector2( 1, 1 )
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 5 )
+tint_progress = Color( 0.784314, 0.784314, 0.784314, 1 )
 
 [node name="ShadowSprite" type="Sprite" parent="."]
 modulate = Color( 0, 0, 0, 0.301961 )

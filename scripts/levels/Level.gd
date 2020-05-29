@@ -11,6 +11,7 @@ var enemies = []
 var zombies = []
 var allies = []
 # Called when the node enters the scene tree for the first time.
+
 func _init():
 	Util.current_level = self
 	Util.can_change_menu = false
@@ -27,16 +28,16 @@ func _ready():
 			enemies.append(child)
 
 func _physics_process(delta):
-	if Input.is_action_just_pressed("reset"):# and Util.can_change_menu:
+	if Input.is_action_just_pressed("reset") and Util.can_change_menu:
 		get_tree().reload_current_scene()
-	if Input.is_action_just_pressed("main_menu"):# and Util.can_change_menu:
+	if Input.is_action_just_pressed("main_menu") and Util.can_change_menu:
 		get_tree().change_scene("res://src/menus/MainMenu.tscn")
 #		SceneChanger.change_scene("res://src/menus/MainMenu.tscn")
-	if Input.is_action_just_pressed("state_label_change"):
-		for child in $Characters.get_children():
-#			showing_label = !howing_label
-			if child.has_node("StateLabel"):
-				child.get_node("StateLabel").visible = !child.get_node("StateLabel").visible
+#	if Input.is_action_just_pressed("state_label_change"):
+#		for child in $Characters.get_children():
+##			showing_label = !howing_label
+#			if child.has_node("StateLabel"):
+#				child.get_node("StateLabel").visible = !child.get_node("StateLabel").visible
 
 func _on_combo_extended(val):
 	$LevelUI/ComboText/ComboLabel.set_combo(val)

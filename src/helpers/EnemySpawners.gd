@@ -30,8 +30,8 @@ func _ready():
 		spawn_points.append(temp)
 	
 	enemy_spawn_list.append([12,0,0]) #Wave 1
-	enemy_spawn_list.append([17,3,0]) #Wave 2
-	enemy_spawn_list.append([20,8,0]) #Wave 3
+	enemy_spawn_list.append([18,2,0]) #Wave 2
+	enemy_spawn_list.append([22,6,0]) #Wave 3
 	enemy_spawn_list.append([23,10,3]) #Wave 4
 	enemy_spawn_list.append([25,12,8]) #Wave 5
 	enemy_spawn_list.append([25,15,10]) #Wave 6
@@ -54,6 +54,8 @@ func _physics_process(delta):
 		print(current_enemies.size(), " ENEMIES LEFT")
 
 func go_to_next_wave():
+	if Util.can_change_menu:
+		return
 	current_enemies = []
 	current_wave += 1
 	if current_wave > last_level:
@@ -96,7 +98,10 @@ func summon(resource, pos):
 
 func _on_enemy_dead(enemy):
 	current_enemies.erase(enemy)
+
 func spawn_horde(list):
+	if Util.can_change_menu:
+		return
 	spawn_enemies(list)
 	times_spawned += 1
 	stage_timer.start()
