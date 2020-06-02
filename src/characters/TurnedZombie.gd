@@ -24,7 +24,6 @@ onready var anim_player = $AnimationPlayer
 onready var tween = $Tween
 
 func _init():
-	max_hp = 3
 	SPEED = {
 		STATES.IDLE: Vector3(0, 0, 0),
 		STATES.RUN: Vector3(30, 30, 100),
@@ -83,6 +82,7 @@ func _init():
 func _ready():
 	max_hp = 5
 	health.setup(self)
+	$Sounds/SummonedSound.play()
 	_state = STATES.IDLE
 	_speed = SPEED[_state]
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")

@@ -38,7 +38,7 @@ func _ready():
 	enemy_spawn_list.append([23,10,3]) #Wave 4
 	enemy_spawn_list.append([25,12,8]) #Wave 5
 	enemy_spawn_list.append([25,15,10]) #Wave 6
-	enemy_spawn_list.append([20,5,30]) #Wave 7
+	enemy_spawn_list.append([25,18,15]) #Wave 7
 	enemy_spawn_list.append([20,20,20]) #Wave 8
 	enemy_spawn_list.append([15,35,15]) #Wave 9
 	enemy_spawn_list.append([25,25,25]) #Wave 10

@@ -138,8 +138,11 @@ func _on_take_damage(damager, dmg = base_damage):
 		has_been_attacked = true
 		change_target(last_damaged_by)
 	 #TODO add damage
-	health.update_health(dmg)
+	update_health(dmg)
 
+func update_health(dmg):
+	health.update_health(dmg)
+	
 func change_target(target):
 	if target == null and is_in_group("zombies"):
 		$Range/AttackRange/CollisionShape2D.disabled = false

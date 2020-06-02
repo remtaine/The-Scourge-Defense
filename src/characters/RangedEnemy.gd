@@ -8,7 +8,10 @@ onready var stone_resource = preload("res://src/bullets/Stone.tscn")
 func _ready():
 	max_hp = 8
 	base_damage = 2
-	ATTACK_DIST = 150
+	randomize()
+	ATTACK_DIST = (randi() % 50) + 200
+	randomize()
+	PYLON_ATTACK_DIST = (randi() % 50) + 300
 
 func _physics_process(delta):
 	if (current_target != null and current_target_wr.get_ref()):

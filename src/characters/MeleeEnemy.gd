@@ -4,6 +4,7 @@ extends Enemy
 func _ready():
 	max_hp = 12
 	base_damage = 1
+	randomize()
 #	ATTACK_DIST = 150
 
 func _on_TargetResetTimer_timeout():

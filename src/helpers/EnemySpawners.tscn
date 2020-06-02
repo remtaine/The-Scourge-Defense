@@ -178,12 +178,13 @@ __meta__ = {
 anims/appear = SubResource( 2 )
 
 [node name="WaveSideLabel" type="Label" parent="CanvasLayer"]
-margin_left = 803.765
+margin_left = 647.923
 margin_top = 11.4558
-margin_right = 950.765
+margin_right = 947.923
 margin_bottom = 75.4558
 custom_fonts/font = SubResource( 3 )
 text = "Wave 1"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -37,7 +37,7 @@ font_data = ExtResource( 2 )
 
 [node name="ComboLabel" type="Label" parent="."]
 margin_left = -102.634
-margin_top = -38.1274
+margin_top = -50.0
 margin_right = 90.3664
 margin_bottom = 32.8726
 size_flags_horizontal = 3

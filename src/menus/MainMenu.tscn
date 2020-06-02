@@ -42,7 +42,7 @@ font_data = ExtResource( 3 )
 script = ExtResource( 8 )
 
 [node name="Background" type="TextureRect" parent="."]
-self_modulate = Color( 0.733333, 0.384314, 0.843137, 1 )
+self_modulate = Color( 0.807843, 0.439216, 0.92549, 1 )
 margin_right = 956.0
 margin_bottom = 531.0
 rect_scale = Vector2( 1.05, 1.05 )
@@ -82,6 +82,7 @@ position = Vector2( 341.487, 336.579 )
 scale = Vector2( 5, 5 )
 frames = ExtResource( 2 )
 animation = "idle"
+frame = 1
 playing = true
 __meta__ = {
 "_editor_description_": "w"
@@ -156,30 +157,30 @@ __meta__ = {
 
 [node name="StartButton" parent="VBox" instance=ExtResource( 4 )]
 margin_right = 163.0
-margin_bottom = 100.0
+margin_bottom = 70.0
 custom_styles/focus = SubResource( 2 )
 dest = "res://src/levels/Level0.tscn"
 
 [node name="InstructionsLabel" type="Label" parent="VBox"]
-margin_top = 104.0
+margin_top = 74.0
 margin_right = 163.0
-margin_bottom = 196.0
+margin_bottom = 166.0
 custom_fonts/font = SubResource( 3 )
-text = "WASD/ Arrow Keys to Move
-J to Attack
-K to Roll
-L to Spell Summon
+text = "WASD/Arrow Keys to Move
+J/1 to Attack
+K/2 to Roll
+L/3 to Spell Summon
 Spacebar to Jump"
 align = 1
 
 [node name="VersionLabel" type="Label" parent="."]
-self_modulate = Color( 1, 1, 1, 0.356863 )
+self_modulate = Color( 1, 1, 1, 0.352941 )
 margin_left = 786.501
 margin_top = 453.204
 margin_right = 949.501
 margin_bottom = 526.204
 custom_fonts/font = SubResource( 4 )
-text = "v1.0.4
+text = "v1.0.7
 Made for the Weekly Game Jam
 Week 150
 THeme: \"You're the Enemy\""
@@ -189,12 +190,16 @@ __meta__ = {
 }
 
 [node name="Credits" type="HBoxContainer" parent="."]
+modulate = Color( 1, 1, 1, 0.352941 )
 margin_left = 9.94165
 margin_top = 458.519
 margin_right = 659.942
 margin_bottom = 590.519
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LinkButton1" parent="Credits" instance=ExtResource( 6 )]
 margin_right = 184.0

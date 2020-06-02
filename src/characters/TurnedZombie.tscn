@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://src/stats/Health.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/characters/TurnedZombie.gd" type="Script" id=2]
@@ -36,6 +36,7 @@
 [ext_resource path="res://images/characters/zombies/zombie generic/attack/zombie1_attack3.png" type="Texture" id=34]
 [ext_resource path="res://images/characters/zombies/zombie generic/attack/zombie1_attack2.png" type="Texture" id=35]
 [ext_resource path="res://images/characters/zombies/zombie generic/attack/zombie1_attack7.png" type="Texture" id=36]
+[ext_resource path="res://sfx/characters/enemies/captured/UNDEAD TRANSFORMATION COMPLETE 2.wav" type="AudioStream" id=37]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 9.73019, 11.2556 )
@@ -54,14 +55,14 @@ animations = [ {
 "name": "run",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 27 ), ExtResource( 26 ), ExtResource( 10 ) ],
-"loop": true,
-"name": "hurt",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 28 ), ExtResource( 25 ), ExtResource( 13 ), ExtResource( 30 ) ],
 "loop": true,
 "name": "die",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 27 ), ExtResource( 26 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "hurt",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 32 ), ExtResource( 35 ), ExtResource( 34 ), ExtResource( 29 ), ExtResource( 33 ), ExtResource( 31 ), ExtResource( 36 ) ],
@@ -123,7 +124,7 @@ rotation = -3.14159
 scale = Vector2( 2, -2 )
 frames = SubResource( 3 )
 animation = "attack"
-frame = 5
+frame = 2
 playing = true
 
 [node name="Hitboxes" type="Node2D" parent="Body/AnimatedSprite"]
@@ -175,15 +176,25 @@ wait_time = 0.3
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 9 )
+attenuation = 0.026278
 
 [node name="AttackSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 12 )
+volume_db = -3.0
+attenuation = 0.03983
 
 [node name="CapturedSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 11 )
+attenuation = 0.098073
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 8 )
+attenuation = 0.052556
+
+[node name="SummonedSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 37 )
+volume_db = -5.0
+attenuation = 0.0647041
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 
@@ -193,7 +204,8 @@ visible = false
 [node name="Range" type="Node2D" parent="."]
 
 [node name="AttackRange" type="Area2D" parent="Range"]
-scale = Vector2( 1.96, 5.08 )
+position = Vector2( 14.7793, -23.7027 )
+scale = Vector2( 0.180839, 3.05879 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Range/AttackRange"]
 scale = Vector2( 6.81319, 5.69538 )

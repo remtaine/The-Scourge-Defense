@@ -49,11 +49,6 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 24 ), ExtResource( 25 ), ExtResource( 22 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 21 ), ExtResource( 23 ) ],
-"loop": true,
-"name": "attack",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 28 ), ExtResource( 32 ), ExtResource( 30 ), ExtResource( 29 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 10 ), ExtResource( 19 ) ],
 "loop": true,
 "name": "run",
@@ -67,6 +62,11 @@ animations = [ {
 "frames": [ ExtResource( 18 ), ExtResource( 13 ), ExtResource( 20 ) ],
 "loop": true,
 "name": "hurt",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 24 ), ExtResource( 25 ), ExtResource( 22 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 21 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "attack",
 "speed": 5.0
 } ]
 
@@ -125,7 +125,7 @@ frame = 3
 [node name="Hitboxes" type="Node2D" parent="Body/AnimatedSprite"]
 
 [node name="BasicAttackHitbox" parent="Body/AnimatedSprite/Hitboxes" instance=ExtResource( 4 )]
-position = Vector2( -11.0234, 3.24216 )
+position = Vector2( -15.8867, 3.24214 )
 scale = Vector2( 1.256, 1 )
 
 [node name="Hurtboxes" type="Node2D" parent="Body/AnimatedSprite"]

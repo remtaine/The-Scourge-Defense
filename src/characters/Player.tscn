@@ -83,7 +83,9 @@ shape = SubResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Body"]
 scale = Vector2( 2.5, 2.5 )
 frames = ExtResource( 1 )
-animation = "hurt"
+animation = "idle"
+frame = 2
+playing = true
 
 [node name="Hitboxes" type="Position2D" parent="Body/AnimatedSprite"]
 script = ExtResource( 65 )
@@ -151,6 +153,7 @@ one_shot = true
 [node name="AttackSound" type="AudioStreamPlayer2D" parent="Sounds"]
 
 [node name="MovementSound" type="AudioStreamPlayer2D" parent="Sounds"]
+volume_db = 3.0
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource( 66 )

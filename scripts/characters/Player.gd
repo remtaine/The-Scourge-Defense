@@ -38,7 +38,6 @@ onready var runpunchbox = $Body/AnimatedSprite/Hitboxes/RunPunchHitbox
 
 onready var spellbox = hitboxes.get_node("SpellHitbox")
 func _init():
-	max_hp = 100
 	SPEED = {
 		STATES.IDLE: Vector3(0, 0, 0),
 		STATES.RUN: Vector3(300, 150, 100),
@@ -93,6 +92,7 @@ func _init():
 		[STATES.JUMP, EVENTS.HURT]: STATES.HURT,	
 		[STATES.ATTACK_AIR_KICK, EVENTS.HURT]: STATES.HURT,	
 		[STATES.HURT, EVENTS.HURT_END]: STATES.IDLE,	
+		[STATES.HURT, EVENTS.ROLL]: STATES.ROLL,	
 			
 #		[STATES.FALL, EVENTS.LAND]: STATES.IDLE,			
 	}
@@ -104,6 +104,7 @@ func _ready():
 	base_damage = 1
 	_state = STATES.IDLE
 	_speed = SPEED[_state]
+	max_hp = 60
 	health.setup(self)
 #	connect("speed_changed", $DirectionVisualizer, "_on_Move_speed_changed")
 
@@ -336,6 +337,7 @@ func _on_AnimatedSprite_animation_finished():
 			change_state(EVENTS.ROLL_END)	
 		"cast_turning_spell":
 			spellbox.enable()
+			Util.current_pylon.update_health(2)
 			tween.interpolate_callback(spellbox, 0.2, "disable")
 			tween.start()
 		"die":
@@ -356,7 +358,10 @@ func _on_AnimatedSprite_frame_changed():
 		"fall":
 			match sprite.get_frame():
 				0:
-					sprite.rotation_degrees = -20
+					if is_flipped:
+						sprite.rotation_degrees = 20
+					else:	
+						sprite.rotation_degrees = -20
 		"attack_punch":
 			match sprite.get_frame():
 				5:

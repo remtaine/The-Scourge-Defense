@@ -149,11 +149,14 @@ func _physics_process(delta):
 			else:
 				_dir.x = 0
 			
-			var temp_dist = abs(global_position.y - current_target.global_position.y)
-			if global_position.y < current_target.global_position.y and temp_dist > 20:
-				_dir.y = 1
-			elif global_position.y > current_target.global_position.y and temp_dist > 20:
-				_dir.y = -1				
+			if current_target != Util.current_pylon:
+				var temp_dist = abs(global_position.y - current_target.global_position.y)
+				if global_position.y < current_target.global_position.y and temp_dist > 20:
+					_dir.y = 1
+				elif global_position.y > current_target.global_position.y and temp_dist > 20:
+					_dir.y = -1				
+				else:
+					_dir.y = 0
 			else:
 				_dir.y = 0
 			#_velocity *= 1.2
@@ -245,13 +248,14 @@ func get_event():
 		return EVENTS.RUN
 		
 	var temp_dist = global_position.distance_to(current_target.global_position)
+	var temp_dist_x = abs(global_position.x - current_target.global_position.x)
 	if temp_dist < ATTACK_DIST:# and is_facing(current_target):
 		event = EVENTS.ATTACK
-	elif current_target == Util.primary_target and temp_dist < PYLON_ATTACK_DIST:
+	elif current_target == Util.primary_target and temp_dist_x < PYLON_ATTACK_DIST:
 		event = EVENTS.ATTACK
 	elif temp_dist < CHASE_DIST:
 		event = EVENTS.CHASE
-	elif current_target == Util.primary_target and temp_dist < PYLON_CHASE_DIST:
+	elif current_target == Util.primary_target and temp_dist_x < PYLON_CHASE_DIST:
 		event = EVENTS.CHASE
 	else:
 		event = EVENTS.RUN
